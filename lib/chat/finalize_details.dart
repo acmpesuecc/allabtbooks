@@ -159,7 +159,7 @@ class _Meet_DetailsState extends State<Meet_Details> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Text(
-                        'SET MEETING POINT',
+                        'ADD',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.rosarivo(
                             fontSize: 18, color: Colors.white),
