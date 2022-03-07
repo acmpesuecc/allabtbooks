@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Final_Details extends StatefulWidget {
-  const Final_Details({Key? key}) : super(key: key);
-
+class Meet_Details extends StatefulWidget {
   @override
-  _Final_DetailsState createState() => _Final_DetailsState();
+  _Meet_DetailsState createState() => _Meet_DetailsState();
 }
 
-class _Final_DetailsState extends State<Final_Details> {
+class _Meet_DetailsState extends State<Meet_Details> {
+  String date_time = 'Set a date and time';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,30 +21,25 @@ class _Final_DetailsState extends State<Final_Details> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(
-                        Icons.arrow_back,
-                        size: 31,
-                        color: Color(0xff545454),
+                      Text(
+                        'BACK',
+                        style: GoogleFonts.rosarivo(
+                            fontSize: 14, color: Color(0xff545454)),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
+                    padding: const EdgeInsets.only(top: 16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          color: Color(0xffC4C4C4),
-                          height: 200,
-                          width: MediaQuery.of(context).size.width * 2 / 5,
+                        Text(
+                          'Set Meeting Details:',
+                          style: GoogleFonts.mali(
+                              fontSize: 24, color: const Color(0xff30011E)),
                         ),
-                        Container(
-                          color: Color(0xffC4C4C4),
-                          height: 200,
-                          width: MediaQuery.of(context).size.width * 2 / 5,
-                        )
                       ],
                     ),
                   ),
@@ -56,12 +50,51 @@ class _Final_DetailsState extends State<Final_Details> {
                         Text(
                           'Time:',
                           style: GoogleFonts.rosarivo(
-                              fontSize: 24, color: Color(0xff30011E)),
+                              fontSize: 24, color: const Color(0xff30011E)),
                         ),
-                        Text(
-                          '23 December 2022 9:10 am',
-                          style: GoogleFonts.rosarivo(
-                              fontSize: 14, color: Color(0xff545454)),
+                        TextButton(
+                          onPressed: () async {
+                            final today_date = DateTime.now();
+                            final pick_date = await showDatePicker(
+                                context: context,
+                                initialDate: today_date,
+                                firstDate: today_date,
+                                lastDate: DateTime(today_date.year + 1));
+                            if (pick_date != null) {
+                              final pick_time = await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay(hour: 9, minute: 0));
+                              if (pick_time != null) {
+                                setState(() {
+                                  date_time = pick_date.day.toString() +
+                                      '/' +
+                                      pick_date.month.toString() +
+                                      '/' +
+                                      pick_date.year.toString() +
+                                      ' ' +
+                                      pick_time.hour.toString() +
+                                      ':' +
+                                      pick_time.minute.toString();
+                                });
+                              }
+                            }
+                          },
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.transparent),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                date_time,
+                                style: GoogleFonts.rosarivo(
+                                    fontSize: 14,
+                                    color: const Color(0xff545454)),
+                              ),
+                              const Icon(Icons.arrow_drop_down,
+                                  color: Color(0xff545454)),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -106,13 +139,13 @@ class _Final_DetailsState extends State<Final_Details> {
                           BoxShadow(
                               color: Colors.black.withOpacity(0.25),
                               blurRadius: 4,
-                              offset: Offset(0, 4))
+                              offset: const Offset(0, 4))
                         ],
                         borderRadius: BorderRadius.circular(30)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        'ADD',
+                        'SET MEETING POINT',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.rosarivo(
                             fontSize: 18, color: Colors.white),

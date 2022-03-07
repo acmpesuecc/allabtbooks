@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'books_involved.dart';
+import 'finalize_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Books_involved(),
+      home: Meet_Details(),
     );
   }
 }
