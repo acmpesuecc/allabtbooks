@@ -19,7 +19,7 @@ class _Meet_DetailsState extends State<Meet_Details> {
       child: Scaffold(
         backgroundColor: const Color(0xffF7EFE5),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+          padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -29,15 +29,22 @@ class _Meet_DetailsState extends State<Meet_Details> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        'BACK',
-                        style: GoogleFonts.rosarivo(
-                            fontSize: 14, color: const Color(0xff545454)),
+                      TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.transparent),
+                        ),
+                        child: Text(
+                          'BACK',
+                          style: GoogleFonts.rosarivo(
+                              fontSize: 14, color: const Color(0xff545454)),
+                        ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -150,7 +157,7 @@ class _Meet_DetailsState extends State<Meet_Details> {
                         ],
                         borderRadius: BorderRadius.circular(30)),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Text(
                         'SET MEETING POINT',
                         textAlign: TextAlign.center,

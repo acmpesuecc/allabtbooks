@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'chat/finalize_details.dart';
+import 'chat/books_involved.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Meet_Details(),
+      home: Books_involved(),
     );
   }
 }

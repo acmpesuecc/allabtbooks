@@ -15,7 +15,7 @@ class _Final_DetailsState extends State<Final_Details> {
       child: Scaffold(
         backgroundColor: const Color(0xffF7EFE5),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+          padding: const EdgeInsets.fromLTRB(0.0, 24, 16, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -24,15 +24,22 @@ class _Final_DetailsState extends State<Final_Details> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.arrow_back,
-                        size: 31,
-                        color: Color(0xff545454),
+                      TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.transparent),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back,
+                          size: 31,
+                          color: Color(0xff545454),
+                        ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
+                    padding: const EdgeInsets.fromLTRB(16, 32.0, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -50,7 +57,7 @@ class _Final_DetailsState extends State<Final_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 48, 8, 8),
+                    padding: const EdgeInsets.fromLTRB(24.0, 48, 8, 8),
                     child: Row(
                       children: [
                         Text(
@@ -67,7 +74,7 @@ class _Final_DetailsState extends State<Final_Details> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(24, 8.0, 8, 8),
                     child: Row(
                       children: [
                         Text(
@@ -92,32 +99,35 @@ class _Final_DetailsState extends State<Final_Details> {
                   ),
                 ],
               ),
-              TextButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: TextButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.transparent),
+                  ),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.55),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                blurRadius: 4,
+                                offset: const Offset(0, 4))
+                          ],
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                          'ARRIVED',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.rosarivo(
+                              fontSize: 18, color: Colors.white),
+                        ),
+                      )),
                 ),
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.55),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 4,
-                              offset: const Offset(0, 4))
-                        ],
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        'ADD',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.rosarivo(
-                            fontSize: 18, color: Colors.white),
-                      ),
-                    )),
               ),
             ],
           ),

@@ -25,25 +25,45 @@ class _DialogueState extends State<Dialogue> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
-                      Icons.arrow_back,
-                      color: Color(0xff565656),
-                      size: 31,
+                    TextButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Color(0xffA2A2A2)),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Color(0xff565656),
+                        size: 31,
+                      ),
                     ),
                     Row(
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 16.0),
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: TextButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateColor.resolveWith(
+                                  (states) => Color(0xffA2A2A2)),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Color(0xff565656),
+                              size: 31,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                              overlayColor: MaterialStateColor.resolveWith(
+                                  (states) => Color(0xffA2A2A2))),
                           child: Icon(
-                            Icons.add,
+                            Icons.delete,
                             color: Color(0xff565656),
                             size: 31,
                           ),
-                        ),
-                        Icon(
-                          Icons.delete,
-                          color: Color(0xff565656),
-                          size: 31,
                         )
                       ],
                     )
@@ -140,11 +160,33 @@ class _DialogueState extends State<Dialogue> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
-                                                children: const [
-                                                  Icon(Icons.done,
-                                                      color: Color(0xffA1CF6B)),
-                                                  Icon(Icons.close,
-                                                      color: Color(0xffD62839))
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    style: ButtonStyle(
+                                                      overlayColor: MaterialStateColor
+                                                          .resolveWith(
+                                                              (states) => Color(
+                                                                  0xffC6E2A5)),
+                                                    ),
+                                                    child: const Icon(
+                                                        Icons.done,
+                                                        color:
+                                                            Color(0xffA1CF6B)),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    style: ButtonStyle(
+                                                      overlayColor: MaterialStateColor
+                                                          .resolveWith(
+                                                              (states) => Color(
+                                                                  0xffE36874)),
+                                                    ),
+                                                    child: const Icon(
+                                                        Icons.close,
+                                                        color:
+                                                            Color(0xffD62839)),
+                                                  )
                                                 ],
                                               ),
                                             )
@@ -237,11 +279,31 @@ class _DialogueState extends State<Dialogue> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
-                                                children: const [
-                                                  Icon(Icons.done,
-                                                      color: Color(0xffA1CF6B)),
-                                                  Icon(Icons.close,
-                                                      color: Color(0xffD62839))
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    style: ButtonStyle(
+                                                      overlayColor: MaterialStateColor
+                                                          .resolveWith(
+                                                              (states) => Color(
+                                                                  0xffC6E2A5)),
+                                                    ),
+                                                    child: Icon(Icons.done,
+                                                        color:
+                                                            Color(0xffA1CF6B)),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    style: ButtonStyle(
+                                                      overlayColor: MaterialStateColor
+                                                          .resolveWith(
+                                                              (states) => Color(
+                                                                  0xffE36874)),
+                                                    ),
+                                                    child: Icon(Icons.close,
+                                                        color:
+                                                            Color(0xffD62839)),
+                                                  )
                                                 ],
                                               ),
                                             )
