@@ -11,7 +11,7 @@ class _Books_involvedState extends State<Books_involved> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffF7EFE5),
+        backgroundColor: const Color(0xffF7EFE5),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
           child: Column(
@@ -25,7 +25,7 @@ class _Books_involvedState extends State<Books_involved> {
                       Text(
                         'BACK',
                         style: GoogleFonts.rosarivo(
-                            fontSize: 14, color: Color(0xff545454)),
+                            fontSize: 14, color: const Color(0xff545454)),
                       ),
                     ],
                   ),
@@ -37,7 +37,7 @@ class _Books_involvedState extends State<Books_involved> {
                         Text(
                           'Books involved:',
                           style: GoogleFonts.mali(
-                              fontSize: 24, color: Color(0xff30011E)),
+                              fontSize: 24, color: const Color(0xff30011E)),
                         ),
                       ],
                     ),
@@ -48,12 +48,12 @@ class _Books_involvedState extends State<Books_involved> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          color: Color(0xffC4C4C4),
+                          color: const Color(0xffC4C4C4),
                           height: 200,
                           width: MediaQuery.of(context).size.width * 2 / 5,
                         ),
                         Container(
-                          color: Color(0xffC4C4C4),
+                          color: const Color(0xffC4C4C4),
                           height: 200,
                           width: MediaQuery.of(context).size.width * 2 / 5,
                         )
@@ -111,7 +111,7 @@ class _Books_involvedState extends State<Books_involved> {
                           BoxShadow(
                               color: Colors.black.withOpacity(0.25),
                               blurRadius: 4,
-                              offset: Offset(0, 4))
+                              offset: const Offset(0, 4))
                         ],
                         borderRadius: BorderRadius.circular(30)),
                     child: Padding(

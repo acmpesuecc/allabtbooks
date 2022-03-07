@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -77,7 +76,7 @@ class _ChatState extends State<Chat> {
                     ],
                   ),
                   Container(
-                    color: Color(0xffc4c4c4),
+                    color: const Color(0xffc4c4c4),
                     width: MediaQuery.of(context).size.width,
                     height: 1,
                   )

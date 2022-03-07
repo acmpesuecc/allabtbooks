@@ -1,24 +1,30 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Meet_Details extends StatefulWidget {
+  const Meet_Details({Key? key}) : super(key: key);
+
   @override
   _Meet_DetailsState createState() => _Meet_DetailsState();
 }
 
 class _Meet_DetailsState extends State<Meet_Details> {
   String date_time = 'Set a date and time';
+  Marker loc = const Marker(markerId: MarkerId('marker'));
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffF7EFE5),
+        backgroundColor: const Color(0xffF7EFE5),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -26,7 +32,7 @@ class _Meet_DetailsState extends State<Meet_Details> {
                       Text(
                         'BACK',
                         style: GoogleFonts.rosarivo(
-                            fontSize: 14, color: Color(0xff545454)),
+                            fontSize: 14, color: const Color(0xff545454)),
                       ),
                     ],
                   ),
@@ -54,27 +60,28 @@ class _Meet_DetailsState extends State<Meet_Details> {
                         ),
                         TextButton(
                           onPressed: () async {
-                            final today_date = DateTime.now();
-                            final pick_date = await showDatePicker(
+                            final todayDate = DateTime.now();
+                            final pickDate = await showDatePicker(
                                 context: context,
-                                initialDate: today_date,
-                                firstDate: today_date,
-                                lastDate: DateTime(today_date.year + 1));
-                            if (pick_date != null) {
-                              final pick_time = await showTimePicker(
+                                initialDate: todayDate,
+                                firstDate: todayDate,
+                                lastDate: DateTime(todayDate.year + 1));
+                            if (pickDate != null) {
+                              final pickTime = await showTimePicker(
                                   context: context,
-                                  initialTime: TimeOfDay(hour: 9, minute: 0));
-                              if (pick_time != null) {
+                                  initialTime:
+                                      const TimeOfDay(hour: 9, minute: 0));
+                              if (pickTime != null) {
                                 setState(() {
-                                  date_time = pick_date.day.toString() +
+                                  date_time = pickDate.day.toString() +
                                       '/' +
-                                      pick_date.month.toString() +
+                                      pickDate.month.toString() +
                                       '/' +
-                                      pick_date.year.toString() +
+                                      pickDate.year.toString() +
                                       ' ' +
-                                      pick_time.hour.toString() +
+                                      pickTime.hour.toString() +
                                       ':' +
-                                      pick_time.minute.toString();
+                                      pickTime.minute.toString();
                                 });
                               }
                             }
@@ -101,28 +108,28 @@ class _Meet_DetailsState extends State<Meet_Details> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Location:',
-                          style: GoogleFonts.rosarivo(
-                              fontSize: 24, color: Color(0xff30011E)),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.transparent),
-                          ),
-                          child: Text(
-                            'See on google maps',
-                            style: GoogleFonts.rosarivo(
-                                fontSize: 14, color: Color(0xff545454)),
-                          ),
-                        )
-                      ],
+                    child: Text(
+                      'Location:',
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.rosarivo(
+                          fontSize: 24, color: const Color(0xff30011E)),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 400,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(12.934695, 77.601991),
+                          zoom: 11.5,
+                        ),
+                        markers: {loc},
+                        onLongPress: addMarker,
+                      ),
+                    ),
+                  )
                 ],
               ),
               TextButton(
@@ -157,5 +164,11 @@ class _Meet_DetailsState extends State<Meet_Details> {
         ),
       ),
     );
+  }
+
+  void addMarker(LatLng argument) {
+    setState(() {
+      loc = Marker(markerId: MarkerId('marker'), position: argument);
+    });
   }
 }

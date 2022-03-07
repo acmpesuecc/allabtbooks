@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,9 +69,9 @@ class _DialogueState extends State<Dialogue> {
                                           15 /
                                           20,
                                       decoration: BoxDecoration(
-                                          color: Color(0xffF7EFE5)
+                                          color: const Color(0xffF7EFE5)
                                               .withOpacity(0.85),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(15))),
                                       child: Padding(
                                         padding: const EdgeInsets.all(21.0),
@@ -91,7 +90,8 @@ class _DialogueState extends State<Dialogue> {
                                                   "See on google maps",
                                                   style: GoogleFonts.rosarivo(
                                                       fontSize: 14,
-                                                      color: Color(0xff545454)),
+                                                      color: const Color(
+                                                          0xff545454)),
                                                 )
                                               ],
                                             ),
@@ -108,7 +108,8 @@ class _DialogueState extends State<Dialogue> {
                                                   "23 December 2022 9:10 am",
                                                   style: GoogleFonts.rosarivo(
                                                       fontSize: 14,
-                                                      color: Color(0xff545454)),
+                                                      color: const Color(
+                                                          0xff545454)),
                                                 )
                                               ],
                                             ),
@@ -126,8 +127,8 @@ class _DialogueState extends State<Dialogue> {
                                                     "Book1 for Book2",
                                                     style: GoogleFonts.rosarivo(
                                                         fontSize: 14,
-                                                        color:
-                                                            Color(0xff545454)),
+                                                        color: const Color(
+                                                            0xff545454)),
                                                   ),
                                                 )
                                               ],
@@ -139,7 +140,7 @@ class _DialogueState extends State<Dialogue> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
-                                                children: [
+                                                children: const [
                                                   Icon(Icons.done,
                                                       color: Color(0xffA1CF6B)),
                                                   Icon(Icons.close,
@@ -165,9 +166,9 @@ class _DialogueState extends State<Dialogue> {
                                           15 /
                                           20,
                                       decoration: BoxDecoration(
-                                          color: Color(0xffF5D3AD)
+                                          color: const Color(0xffF5D3AD)
                                               .withOpacity(0.95),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(15))),
                                       child: Padding(
                                         padding: const EdgeInsets.all(21.0),
@@ -186,7 +187,8 @@ class _DialogueState extends State<Dialogue> {
                                                   "See on google maps",
                                                   style: GoogleFonts.rosarivo(
                                                       fontSize: 14,
-                                                      color: Color(0xff545454)),
+                                                      color: const Color(
+                                                          0xff545454)),
                                                 )
                                               ],
                                             ),
@@ -203,7 +205,8 @@ class _DialogueState extends State<Dialogue> {
                                                   "23 December 2022 9:10 am",
                                                   style: GoogleFonts.rosarivo(
                                                       fontSize: 14,
-                                                      color: Color(0xff545454)),
+                                                      color: const Color(
+                                                          0xff545454)),
                                                 )
                                               ],
                                             ),
@@ -221,8 +224,8 @@ class _DialogueState extends State<Dialogue> {
                                                     "Book1 for Book2",
                                                     style: GoogleFonts.rosarivo(
                                                         fontSize: 14,
-                                                        color:
-                                                            Color(0xff545454)),
+                                                        color: const Color(
+                                                            0xff545454)),
                                                   ),
                                                 )
                                               ],
@@ -234,7 +237,7 @@ class _DialogueState extends State<Dialogue> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
-                                                children: [
+                                                children: const [
                                                   Icon(Icons.done,
                                                       color: Color(0xffA1CF6B)),
                                                   Icon(Icons.close,
