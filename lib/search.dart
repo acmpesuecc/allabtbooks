@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'widget/book_item_card.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -7,6 +8,10 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  var box = BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xffFFFDF8));
+  var clr = Color(0xffFFFDF8);
+  var ma = EdgeInsets.fromLTRB(15, 3, 19, 9);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +88,66 @@ class _SearchState extends State<Search> {
                     ],
                  ),
                ),  //search&icon
+          Theme(
+            data: Theme.of(context).copyWith(
+                scrollbarTheme: ScrollbarThemeData(
+                  thumbColor: MaterialStateProperty.all(Color(0xffC19280)),
+                  crossAxisMargin: 4,
+                )
+            ),
+            child: Scrollbar(
+              isAlwaysShown: true,
+              showTrackOnHover: true,
+              thickness: 10,
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(20,170,20,20),
+                  child:
+                  GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                    children: <Widget>[
+
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'nigeldias27',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'sammy22',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'lohiths26',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'smuzzy',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'mr.somebody',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'doreswamy',
+                      ), margin: ma),
+                      Container(child: BookCard(
+                        image: 'assets/images/image.jpg',
+                        title: 'Harry Potter and the Philospher Stone',
+                        desc: 'Surabhi',
+                      ), margin: ma),
+
+                    ],
+                  )
+              ),
+            ),
+          ),  //book images
+
             ],
          ),
       );

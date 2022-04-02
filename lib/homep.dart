@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'widget/book_item_card.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,15 +9,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  //var box = BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xffFFFDF8));
+  //var clr = Color(0xffFFFDF8);
+  var ma = EdgeInsets.fromLTRB(15, 3, 19, 9);
+  var sty = GoogleFonts.waitingForTheSunrise(fontSize: 20, color: Color(0xff000000));
+
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff7efe5),
       bottomNavigationBar: BottomNavigationBar(items:[
         BottomNavigationBarItem(icon: Icon(Icons.menu_book, color: Color(0xffC19280),),label:" "),
         BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Color(0xffF5D3AD),),label:" "),
-        BottomNavigationBarItem(icon: Icon(Icons.chat, color: Color(0xffF5D3AD),),label:" "),
-        BottomNavigationBarItem(icon: Icon(Icons.person, color: Color(0xffF5D3AD),),label:" "),
+        BottomNavigationBarItem(icon: Icon(Icons.chat_outlined, color: Color(0xffF5D3AD),),label:" "),
+        BottomNavigationBarItem(icon: Icon(Icons.perm_identity, color: Color(0xffF5D3AD),),label:" "),
       ]),
 
       body: Stack(
@@ -25,7 +34,7 @@ class _HomeState extends State<Home> {
             height: 265,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/book_stack 2.png'),
+                    image: AssetImage('assets/images/book_stack.png'),
                     fit: BoxFit.cover
                 ),
 
@@ -33,7 +42,7 @@ class _HomeState extends State<Home> {
                     bottomRight: Radius.circular(40), bottomLeft: Radius.circular(40)
             ),
           ),
-        ),
+        ),  //book stack image
             Positioned(
             top: 30.0, left: 30.0, right: 0.0,
             child: Column(
@@ -102,7 +111,6 @@ class _HomeState extends State<Home> {
                                     Text('Hi',
                                       style: GoogleFonts.crimsonText(
                                         fontSize: 36.0,
-
                                         color: Color(0xff30011e),
                                     ),),
 
@@ -111,18 +119,14 @@ class _HomeState extends State<Home> {
                               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Nigel!',
-
                                   style: GoogleFonts.crimsonText(
                                       fontSize: 48.0,
-
                                       fontWeight: FontWeight.w600,
                                       color: Color(0xff30011e)
                                   ),),
                               ],
                             ),
-
-
-                          Row(
+                            Row(
 
                               children: [
                               Expanded(
@@ -134,7 +138,7 @@ class _HomeState extends State<Home> {
                                   color: Color(0xfffafafa)
                                     ),
 
-                                      padding: EdgeInsets.only(left: 30),
+                                    padding: EdgeInsets.only(left: 30),
 
                                   child: TextField(
                                         decoration: InputDecoration(
@@ -169,8 +173,121 @@ class _HomeState extends State<Home> {
 
     ],
                     ),
-                    ),  //hi nigel, search box
-          //till here brackets are correct so don't bother
+                    ),  //hi nigel, search
+            Theme(
+              data: Theme.of(context).copyWith(
+                scrollbarTheme: ScrollbarThemeData(
+                  thumbColor: MaterialStateProperty.all(Color(0xffC19280)),
+                  crossAxisMargin: 4,
+                )
+              ),
+              child: Scrollbar(
+                isAlwaysShown: true,
+                showTrackOnHover: true,
+                thickness: 13,
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(20,335,20,15),
+                    child:
+                    GridView(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                      children: <Widget>[
+                        //color: Color(0xffFFFDF8),
+
+                        Container(child: BookCard(
+                          image: 'assets/images/image.jpg',
+                          title: 'Harry Potter and the Philospher Stone',
+                          desc: 'nigeldias27',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/angel.jpg',
+                          title: 'Angel and Demons',
+                          desc: 'nigeldias27',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/coho.jpg',
+                          title: 'Reminders of Him',
+                          desc: 'lohiths26',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/6ofcrows.jpg',
+                          title: 'Six of Crows',
+                          desc: 'sammy22',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/elonmusk.jpg',
+                          title: 'Elon Musk',
+                          desc: 'nigeldias27',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/angel.jpg',
+                          title: 'Angel and Demons',
+                          desc: 'sammy22',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/coho.jpg',
+                          title: 'Reminders of Him',
+                          desc: 'lohiths26',
+                        ), margin: ma),
+                        Container(child: BookCard(
+                          image: 'assets/images/6ofcrows.jpg',
+                          title: 'Six of Crows',
+                          desc: 'sammy22',
+                        ), margin: ma),
+
+
+
+                      ],
+                    )
+                ),
+              ),
+            ),  //book images
+            Padding(
+              padding: EdgeInsets.fromLTRB(30,2,20,80),
+              child:
+              ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+
+                    Row(
+                      children: [
+
+                        Text('Thriller',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('Romance',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('Fantasy',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('SciFi',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('Young Adult',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('Autobiography',
+                            style: sty,
+                        ),
+                        SizedBox(width: 25,),
+                        Text('Classics',
+                          style: sty,
+                        ),
+                        SizedBox(width: 25,),
+
+
+
+                      ]
+                  )
+                ],
+              )
+          ),  //genre names
+
         ],
       ),
     );
