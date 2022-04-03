@@ -1,5 +1,12 @@
+import 'package:allabtbooks/chat/dialogue.dart';
+import 'package:allabtbooks/chat/final_details.dart';
+import 'package:allabtbooks/chat/finalize_details.dart';
+import 'package:allabtbooks/search.dart';
 import 'package:flutter/material.dart';
+import 'welcome.dart';
+import 'homep.dart';
 import 'chat/books_involved.dart';
+import 'chat/chat.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Books_involved(),
+      home: Home(),
     );
   }
 }
