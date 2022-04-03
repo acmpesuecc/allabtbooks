@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
               label: '')
         ],
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      body: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(children: [
           Padding(
             padding:
@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://image.cnbcfm.com/api/v1/image/106965909-1635265647645-gettyimages-1229892823-AFP_8WA6CM.jpeg?v=1640804100&w=740&h=416'),
-                radius: 85.0,
+                radius: 80.0,
               ),
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widget/book_item_card.dart';
-import 'models/bookcarddata.dart';
+import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class _SearchState extends State<Search> {
   var box = BoxDecoration(
       borderRadius: BorderRadius.circular(20), color: Color(0xffFFFDF8));
   var clr = Color(0xffFFFDF8);
-  var ma = EdgeInsets.fromLTRB(15, 9, 19, 3);
+  var ma = EdgeInsets.fromLTRB(10, 9, 14, 3);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -96,7 +96,7 @@ class _SearchState extends State<Search> {
             ),
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                 child: GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
