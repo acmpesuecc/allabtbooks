@@ -9,7 +9,7 @@ events like book club discussions ...
 ## Why?
 
 Libraries in India don’t have a large, diverse collection of books. If you are an
-avid reader, buying books just to read it once doesn’t make sense as it is very
+avid reader, buying books just to read it once doesn't make sense as it is very
 expensive and reading e-books just isn’t the same as reading a physical book.
 
 ---
