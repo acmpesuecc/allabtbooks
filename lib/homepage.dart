@@ -16,19 +16,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("AllAbtBooks"),
+        title: const Text("AllAbtBooks"),
         actions: [
           TextButton(
-            child: Text("Sign Out"),
+            child: const Text(
+              "Sign Out",
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () async {
               await _auth.signOut();
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => InitializerWidget()));
+                  MaterialPageRoute(builder: (context) => const InitializerWidget()));
             },
           )
         ],
       ),
-      body: Center(child: Text("This is the HomePage")),
+      body: const Center(child: const Text("This is the HomePage")),
     );
   }
 }

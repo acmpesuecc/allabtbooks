@@ -1,7 +1,11 @@
 import 'package:allabtbooks/init.dart';
+import 'package:allabtbooks/shared/styles.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
 
 enum ScreenState { MOBILE_NO_STATE, OTP_STATE }
 
@@ -51,9 +55,15 @@ class _AuthenticateState extends State<Authenticate> {
     return Form(
       key: mobFormKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(
-            flex: 2,
+          Text(
+            "AllAbtBooks",
+            style: GoogleFonts.rosarivo(
+                textStyle: TextStyle(fontSize: 47, color: Color(0xffFFEDD1))),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 8,
           ),
           Row(
             children: [
@@ -64,15 +74,20 @@ class _AuthenticateState extends State<Authenticate> {
                     },
                     initialSelection: "IN",
                     showFlagMain: false,
-                    textStyle: TextStyle(fontSize: 17, color: Colors.black),
+                    textStyle: TextStyle(
+                        fontSize: 17, color: AuthStyle.getAuthColor()),
                     dialogSize: Size(300, 400)),
               ),
               Expanded(
                 flex: 4,
                 child: TextFormField(
                   keyboardType: TextInputType.number,
+                  style: TextStyle(color: AuthStyle.getAuthColor()),
+                  decoration: InputDecoration(
+                      hintText: "Please enter your phone number",
+                      hintStyle: TextStyle(color: AuthStyle.getAuthColor())),
                   validator: (val) {
-                    if (val == null) {
+                    if (val == null || val.length != 10) {
                       return "Please enter a valid moble number.";
                     } else {
                       return null;
@@ -86,12 +101,22 @@ class _AuthenticateState extends State<Authenticate> {
             ],
           ),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).size.height / 16,
           ),
-          ElevatedButton(
-            child: Text("Verify"),
+          TextButton(
+            child: Text(
+              "Get OTP",
+              style: GoogleFonts.rosarivo(fontSize: 22, color: Colors.black),
+            ),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.pinkAccent)),
+                minimumSize: MaterialStateProperty.all<Size>(Size(150.0, 50.0)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                  //side: BorderSide(color: Colors.red)
+                )),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.white.withOpacity(0.5))),
             onPressed: () async {
               final isValid = mobFormKey.currentState!.validate();
               if (isValid) {
@@ -135,9 +160,6 @@ class _AuthenticateState extends State<Authenticate> {
               }
             },
           ),
-          Spacer(
-            flex: 1,
-          )
         ],
       ),
     );
@@ -148,75 +170,96 @@ class _AuthenticateState extends State<Authenticate> {
     return Form(
       key: otpFormKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(
-            flex: 2,
+          Text(
+            "Verify\nNumber",
+            style: GoogleFonts.rosarivo(
+                textStyle: TextStyle(fontSize: 47, color: Color(0xffFFEDD1))),
           ),
-          TextFormField(
-            keyboardType: TextInputType.number,
-            onSaved: (value) => setState(() {
-              otp = value!;
-            }),
-            validator: (val) {
-              if (val!.length != 6) {
-                return "Enter valid OTP";
-              } else {
-                return null;
-              }
+          SizedBox(height: MediaQuery.of(context).size.height / 8),
+          // TextFormField(
+          //   keyboardType: TextInputType.number,
+          //   onSaved: (value) => setState(() {
+          //     otp = value!;
+          //   }),
+          //   validator: (val) {
+          //     if (val!.length != 6) {
+          //       return "Enter valid OTP";
+          //     } else {
+          //       return null;
+          //     }
+          //   },
+          // ),
+          OTPTextField(
+            length: 6,
+            width: MediaQuery.of(context).size.width,
+            fieldWidth: 40,
+            style: TextStyle(fontSize: 17),
+            textFieldAlignment: MainAxisAlignment.spaceAround,
+            fieldStyle: FieldStyle.underline,
+            onCompleted: (pin) {
+              otp = pin;
+              onOtpPressed();
             },
           ),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).size.height / 16,
           ),
           ElevatedButton(
-            child: Text("Confirm"),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.pinkAccent)),
-            onPressed: () async {
-              print("Confirm Pressed");
-              final isValid = otpFormKey.currentState!.validate();
-              if (isValid) {
-                otpFormKey.currentState!.save();
-                print(otp);
-                PhoneAuthCredential phoneAuthCredential =
-                    PhoneAuthProvider.credential(
-                        verificationId: _verificationId!, smsCode: otp);
-
-                signInWithPhoneAuthCredential(phoneAuthCredential);
-              } else {
-                print("Code Not Valid");
-              }
-            },
-          ),
-          Spacer(
-            flex: 1,
-          )
+              child: Text(
+                "Verify",
+                style: GoogleFonts.rosarivo(fontSize: 22, color: Colors.black),
+              ),
+              style: ButtonStyle(
+                  minimumSize:
+                      MaterialStateProperty.all<Size>(Size(150.0, 50.0)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                    //side: BorderSide(color: Colors.red)
+                  )),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.white.withOpacity(0.5))),
+              onPressed: onOtpPressed),
         ],
       ),
     );
     ;
   }
 
+  void onOtpPressed() async {
+    final isValid = otpFormKey.currentState!.validate();
+    if (isValid) {
+      otpFormKey.currentState!.save();
+      print(otp);
+      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+          verificationId: _verificationId!, smsCode: otp);
+
+      signInWithPhoneAuthCredential(phoneAuthCredential);
+    } else {
+      print("Code Not Valid");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("AllABtBooks"),
-        ),
-        body: Container(
+        body: Stack(
+      children: [
+        Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("/assets/images/angel.jpg"),
+                image: AssetImage("assets/images/auth_bg.png"),
                 fit: BoxFit.cover),
           ),
-          child: showLoading
-              ? Center(child: CircularProgressIndicator())
-              : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: curr_state == ScreenState.MOBILE_NO_STATE
-                      ? get_mob_state(context)
-                      : get_otp_state(context),
-                ),
-        ));
+        ),
+        showLoading
+            ? Center(child: CircularProgressIndicator())
+            : curr_state == ScreenState.MOBILE_NO_STATE
+                ? get_mob_state(context)
+                : get_otp_state(context),
+      ],
+    ));
   }
 }

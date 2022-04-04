@@ -19,7 +19,6 @@ class _InitializerWidgetState extends State<InitializerWidget> {
 
   @override
   void initState() {
-    print("Innitted");
     super.initState();
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
@@ -28,7 +27,6 @@ class _InitializerWidgetState extends State<InitializerWidget> {
 
   void route() {
     if (_user == null) {
-      print("Here");
       SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Authenticate()));
@@ -41,7 +39,6 @@ class _InitializerWidgetState extends State<InitializerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("Built");
     return isLoading
         ? Scaffold(
             appBar: AppBar(

@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1
   google_maps_flutter: ^2.1.2
+  otp_text_field: ^1.1.2
 
 dev_dependencies:
   flutter_test:
