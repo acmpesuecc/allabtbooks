@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:77411192144:android:0d13acfa6ecb7cd3def055",
+        "mobilesdk_app_id": "1:77411192144:android:3f13c96f969393cddef055",
         "android_client_info": {
           "package_name": "com.example.allabtbooks"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "77411192144-v8mtat3r9dj6llf7jfknmhen72dnsj9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.allabtbooks",
+            "certificate_hash": "b0dc5fb4bd88ec5f9e7f2047c9f16b41486a81f9"
+          }
+        },
         {
           "client_id": "77411192144-cakembpho8horsfdk8pj39h685kt2sm0.apps.googleusercontent.com",
           "client_type": 3
