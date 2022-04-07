@@ -60,60 +60,66 @@ class _BookState extends State<Book> {
                 ),
               ),
               Positioned(
-                top: 75,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 176,
-                            width: 123,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: (AssetImage('assets/images/angel.jpg')),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.25),
-                                    spreadRadius: 30,
-                                    blurRadius: 50,
-                                    offset: const Offset(0, 4)),
-                              ],
+                top: 75,left:0,
+                child: Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 176,
+                          width: 123,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: (AssetImage('assets/images/angel.jpg')),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 36, 0, 8),
-                            child: Text(
-                              "Angels and Demons",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.mali(
-                                  fontSize: 36, fontWeight: FontWeight.w300),
-                            ),
-                          ),
-                          Text(
-                            "Dan Brown",
-                            style: GoogleFonts.rosarivo(
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: Text(
-                          "Reviews",
-                          style: GoogleFonts.mali(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w100,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  spreadRadius: 30,
+                                  blurRadius: 50,
+                                  offset: const Offset(0, 4)),
+                            ],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 36, 5, 8),
+                          child: Text(
+                            "Angels and Demons",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.mali(
+                                fontSize: 32, fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                        Text(
+                          "Dan Brown",
+                          style: GoogleFonts.rosarivo(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                    Container(width: MediaQuery.of(context).size.width,
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB( 30,16.0,0,0),
+                            child: Text(
+                              "Reviews",
+                              style: GoogleFonts.mali(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
+                          ),
+
+                        ],
                       ),
-                      SizedBox(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: SizedBox(
                         height: MediaQuery.of(context).size.height - 510,
                         width: MediaQuery.of(context).size.width - 50,
                         child: ListView.builder(
@@ -140,7 +146,7 @@ class _BookState extends State<Book> {
                                         vertical: 18.0, horizontal: 10),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
@@ -175,7 +181,7 @@ class _BookState extends State<Book> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 10.0),
+                                          const EdgeInsets.only(top: 10.0),
                                           child: Text(
                                             "Its a great book",
                                             style: GoogleFonts.rosarivo(
@@ -191,8 +197,9 @@ class _BookState extends State<Book> {
                               );
                             }),
                       ),
-                    ],
-                  ),
+                    ),
+
+                  ],
                 ),
               ),
               Positioned(
