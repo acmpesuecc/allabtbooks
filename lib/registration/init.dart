@@ -1,6 +1,5 @@
-import 'package:allabtbooks/auth.dart';
+import 'package:allabtbooks/registration/auth.dart';
 import 'package:allabtbooks/homepage.dart';
-import 'package:allabtbooks/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

@@ -1,4 +1,4 @@
-import 'package:allabtbooks/init.dart';
+import 'package:allabtbooks/registration/init.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +25,10 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () async {
               await _auth.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const InitializerWidget()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const InitializerWidget()));
             },
           )
         ],

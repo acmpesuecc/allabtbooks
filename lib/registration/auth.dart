@@ -1,4 +1,4 @@
-import 'package:allabtbooks/init.dart';
+import 'package:allabtbooks/registration/init.dart';
 import 'package:allabtbooks/shared/styles.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,42 +63,46 @@ class _AuthenticateState extends State<Authenticate> {
                 textStyle: TextStyle(fontSize: 47, color: Color(0xffFFEDD1))),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 8,
+            height: MediaQuery.of(context).size.height / 12,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: CountryCodePicker(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Row(
+              children: [
+                CountryCodePicker(
                     onChanged: (val) {
                       countryCode = val.toString();
                     },
                     initialSelection: "IN",
                     showFlagMain: false,
-                    textStyle: TextStyle(
-                        fontSize: 17, color: AuthStyle.getAuthColor()),
+                    textStyle: GoogleFonts.rosarivo(
+                        fontSize: 16, color: AuthStyle.getAuthColor()),
                     dialogSize: Size(300, 400)),
-              ),
-              Expanded(
-                flex: 4,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(color: AuthStyle.getAuthColor()),
-                  decoration: InputDecoration(
-                      hintText: "Please enter your phone number",
-                      hintStyle: TextStyle(color: AuthStyle.getAuthColor())),
-                  validator: (val) {
-                    if (val == null || val.length != 10) {
-                      return "Please enter a valid moble number.";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (value) => setState(() {
-                    mob_no = value!;
-                  }),
+                Container(
+                  width: 200,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(color: AuthStyle.getAuthColor()),
+                    decoration: InputDecoration(
+                        focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffFFEDD1))),
+                        hintText: "Enter your phone number",
+                        hintStyle: GoogleFonts.rosarivo(
+                            fontSize: 16, color: AuthStyle.getAuthColor())),
+                    validator: (val) {
+                      if (val == null || val.length != 10) {
+                        return "Please enter a valid moble number.";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onSaved: (value) => setState(() {
+                      mob_no = value!;
+                    }),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 16,
@@ -160,6 +164,9 @@ class _AuthenticateState extends State<Authenticate> {
               }
             },
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 12,
+          ),
         ],
       ),
     );
@@ -174,10 +181,11 @@ class _AuthenticateState extends State<Authenticate> {
         children: [
           Text(
             "Verify\nNumber",
+            textAlign: TextAlign.center,
             style: GoogleFonts.rosarivo(
                 textStyle: TextStyle(fontSize: 47, color: Color(0xffFFEDD1))),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height / 8),
+          SizedBox(height: MediaQuery.of(context).size.height / 12),
           // TextFormField(
           //   keyboardType: TextInputType.number,
           //   onSaved: (value) => setState(() {
@@ -195,7 +203,7 @@ class _AuthenticateState extends State<Authenticate> {
             length: 6,
             width: MediaQuery.of(context).size.width,
             fieldWidth: 40,
-            style: TextStyle(fontSize: 17),
+            style: TextStyle(fontSize: 17, color: Color(0xffFFEDD1)),
             textFieldAlignment: MainAxisAlignment.spaceAround,
             fieldStyle: FieldStyle.underline,
             onCompleted: (pin) {
@@ -222,10 +230,10 @@ class _AuthenticateState extends State<Authenticate> {
                   backgroundColor:
                       MaterialStateProperty.all(Colors.white.withOpacity(0.5))),
               onPressed: onOtpPressed),
+          SizedBox(height: MediaQuery.of(context).size.height / 12),
         ],
       ),
     );
-    ;
   }
 
   void onOtpPressed() async {
@@ -248,7 +256,7 @@ class _AuthenticateState extends State<Authenticate> {
         body: Stack(
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/auth_bg.png"),
                 fit: BoxFit.cover),

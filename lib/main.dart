@@ -1,8 +1,6 @@
-import 'package:allabtbooks/init.dart';
-import 'package:allabtbooks/welcome.dart';
+import 'package:allabtbooks/registration/init.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'chat/books_involved.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
