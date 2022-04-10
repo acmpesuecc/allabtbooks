@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "77411192144",
+    "firebase_url": "https://allabtbooks-81686-default-rtdb.firebaseio.com",
+    "project_id": "allabtbooks-81686",
+    "storage_bucket": "allabtbooks-81686.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77411192144:android:3f13c96f969393cddef055",
+        "android_client_info": {
+          "package_name": "com.example.allabtbooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77411192144-v8mtat3r9dj6llf7jfknmhen72dnsj9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.allabtbooks",
+            "certificate_hash": "b0dc5fb4bd88ec5f9e7f2047c9f16b41486a81f9"
+          }
+        },
+        {
+          "client_id": "77411192144-cakembpho8horsfdk8pj39h685kt2sm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKxxMxgH_Zi6tpLM-gV41tnB8fi-c1YRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77411192144-cakembpho8horsfdk8pj39h685kt2sm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
