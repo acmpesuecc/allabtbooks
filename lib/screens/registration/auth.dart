@@ -1,4 +1,4 @@
-import 'package:allabtbooks/registration/init.dart';
+import 'package:allabtbooks/screens/registration/init.dart';
 import 'package:allabtbooks/shared/styles.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'personal_info.dart';
 
 enum ScreenState { MOBILE_NO_STATE, OTP_STATE }
 
@@ -43,8 +44,8 @@ class _AuthenticateState extends State<Authenticate> {
         showLoading = false;
       });
       print("pushing");
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => InitializerWidget()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => PersonalInfo()));
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message!)));
@@ -159,7 +160,9 @@ class _AuthenticateState extends State<Authenticate> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => InitializerWidget()));
+                              builder: (context) => const InitializerWidget(
+                                    registering: true,
+                                  )));
                     });
               }
             },

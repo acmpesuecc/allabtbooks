@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:allabtbooks/utils/bottom_app_bar_navigation.dart';
 
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -9,18 +10,24 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  int bottom_nav_index = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: bottom_nav_index,
+        onTap: (int index) {
+          setState(() {
+            bottom_nav_index = index;
+            print(bottom_nav_index);
+          });
+          bottom_navigation(index, context);
+        },
         items: const [
           BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: Icon(
-                  Icons.menu_book,
-                  color: Color(0xffF5D3AD),
-                ),
+              icon: Icon(
+                Icons.menu_book,
+                color: Color(0xffF5D3AD),
               ),
               label: ''),
           BottomNavigationBarItem(
