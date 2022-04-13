@@ -1,6 +1,8 @@
-import 'package:allabtbooks/registration/init.dart';
+import 'package:allabtbooks/screens/registration/init.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:allabtbooks/screens/registration/friend_request.dart';
+import 'screens/homep.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: InitializerWidget(),
-
     );
   }
 }

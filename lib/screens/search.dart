@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'widget/book_item_card.dart';
+import '../widget/book_item_card.dart';
 import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Search extends StatefulWidget {
