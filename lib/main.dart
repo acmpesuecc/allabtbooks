@@ -1,12 +1,13 @@
-import 'package:allabtbooks/screens/registration/init.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:allabtbooks/screens/registration/friend_request.dart';
-import 'screens/homep.dart';
-
-void main() async {
+import 'bookitem.dart';
+import 'package:flutter/services.dart';
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+
+  ],);
   runApp(const MyApp());
 }
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: InitializerWidget(),
+      home: Book(),
     );
   }
 }
