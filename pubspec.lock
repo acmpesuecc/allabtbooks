@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  calc_lat_long:
+    dependency: "direct main"
+    description:
+      name: calc_lat_long
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   characters:
     dependency: transitive
     description:
