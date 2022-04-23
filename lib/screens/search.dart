@@ -1,7 +1,9 @@
+import 'package:calc_lat_long/calc_lat_long.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location/location.dart';
 import '../widget/book_item_card.dart';
-import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Search extends StatefulWidget {
   final input_text;
@@ -17,11 +19,47 @@ class _SearchState extends State<Search> {
   var clr = Color(0xffFFFDF8);
   var ma = EdgeInsets.fromLTRB(10, 9, 14, 3);
   TextEditingController search_controller = TextEditingController();
+  bool loading = false;
+  List search = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     search_controller.text = widget.input_text;
+    FirebaseDatabase.instance.ref().onValue.listen((event) {
+      var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
+      location_distance(data);
+    });
+  }
+
+  location_distance(data) async {
+    var loc = await Location().getLocation();
+    print(loc);
+    await data['book_database'].forEach((k, v) async {
+      if (data['book_database'][k]['name']
+          .toLowerCase()
+          .contains(search_controller.text.toLowerCase())) {
+        print(k);
+        List latlong = data['book_database'][k]['loc'].split(',');
+
+        String lat = latlong[0];
+        String long = latlong[1];
+        print(latlong);
+        var distance = await CalcDistance.distance(double.parse(lat),
+            loc.latitude!, double.parse(long), loc.longitude!, UnitLength.km);
+        print(distance);
+        data['book_database'][k]['loc'] = distance;
+        data['book_database'][k]['isbn_username'] = k;
+        search.add(data['book_database'][k]);
+        print(data['book_database']);
+      }
+    });
+    print('search list');
+    setState(() {
+      search.sort((a, b) => a["loc"].compareTo(b["loc"]));
+      loading = true;
+    });
+    print(search);
   }
 
   @override
@@ -35,7 +73,9 @@ class _SearchState extends State<Search> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const Icon(
                   Icons.arrow_back_outlined,
                   color: Color(0xffC19280),
@@ -82,7 +122,13 @@ class _SearchState extends State<Search> {
                 Expanded(
                     flex: 1,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseDatabase.instance.ref().onValue.listen((event) {
+                          var data = Map<String, dynamic>.from(
+                              event.snapshot.value as dynamic);
+                          location_distance(data);
+                        });
+                      },
                       style: ButtonStyle(
                         overlayColor: MaterialStateColor.resolveWith(
                             (states) => Colors.transparent),
@@ -107,24 +153,38 @@ class _SearchState extends State<Search> {
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount: bookitem
-                        .length, //Book item list has been imported from models/bookcarddata.dart
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, int index) {
-                      return Container(
-                        child: BookCard(
-                          image: bookitem[index][
-                              0], //Book item list has been imported from models/bookcarddata.dart
-                          title: bookitem[index][1],
-                          desc: bookitem[index][2],
-                        ),
-                        margin: ma,
-                      );
-                    }),
+                child: loading == false
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : search.length == 0
+                        ? Center(
+                            child: Text(
+                              'No books were found',
+                              style: GoogleFonts.rosarivo(
+                                  color: Color(0xffC19280), fontSize: 14),
+                            ),
+                          )
+                        : (GridView.builder(
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemCount: search
+                                .length, //Book item list has been imported from models/bookcarddata.dart
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, int index) {
+                              return Container(
+                                child: BookCard(
+                                  image: search[index][
+                                      'url_image'], //Book item list has been imported from models/bookcarddata.dart
+                                  title: search[index]['name'],
+                                  desc: search[index]['isbn_username']
+                                      .split('&')[1],
+                                ),
+                                margin: ma,
+                              );
+                            })),
               ),
             ),
           ],

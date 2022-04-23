@@ -23,7 +23,7 @@ class BookCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            Image.network(
               this.image,
               height: 60,
             ),
