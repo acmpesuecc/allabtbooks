@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Collection extends StatefulWidget {
   final username, loc;
@@ -21,6 +22,7 @@ class _CollectionState extends State<Collection> {
   TextEditingController isbn = TextEditingController();
   TextEditingController name_of_book = TextEditingController();
   TextEditingController author = TextEditingController();
+  String dropdownValue = 'Thriller';
   var add_state = false;
   @override
   Widget build(BuildContext context) {
@@ -212,6 +214,46 @@ class _CollectionState extends State<Collection> {
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(24, 8.0, 8, 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    dropdownColor:
+                                        Colors.black.withOpacity(0.75),
+                                    value: dropdownValue,
+                                    icon: const Icon(Icons.arrow_downward,
+                                        color: Color(0xffFFEDD1)),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 1,
+                                      color: Colors.black.withOpacity(0.25),
+                                    ),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: genres
+                                        .map<DropdownMenuItem<String>>((value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: GoogleFonts.rosarivo(
+                                              fontSize: 16,
+                                              color: Color(0xffFFEDD1)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ))
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -282,6 +324,7 @@ class _CollectionState extends State<Collection> {
           'isbn': isbn.text,
           'name': mapOfArticles['ISBN:' + isbn.text]['title'],
           'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],
+          'genre': dropdownValue,
           'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large']
         });
         ref
@@ -290,6 +333,7 @@ class _CollectionState extends State<Collection> {
           'loc': widget.loc,
           'name': mapOfArticles['ISBN:' + isbn.text]['title'],
           'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],
+          'genre': dropdownValue,
           'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large']
         });
         FirebaseStorage.instance
@@ -301,6 +345,7 @@ class _CollectionState extends State<Collection> {
           name_of_book.clear();
           author.clear();
           isbn.clear();
+          dropdownValue = "Thriller";
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -1,10 +1,16 @@
 import 'package:allabtbooks/screens/search.dart';
+import 'package:calc_lat_long/calc_lat_long.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/book_item_card.dart';
 import 'package:allabtbooks/models/bookcarddata.dart';
 import 'package:allabtbooks/utils/bottom_app_bar_navigation.dart';
 import 'package:allabtbooks/screens/registration/personal_info.dart';
+
+import 'bookitem.dart';
 
 class Home extends StatefulWidget {
   final username;
@@ -22,6 +28,54 @@ class _HomeState extends State<Home> {
   var ma = const EdgeInsets.fromLTRB(15, 3, 19, 9);
   var sty = GoogleFonts.waitingForTheSunrise(
       fontSize: 20, color: const Color(0xff000000));
+  List content = [];
+  bool loading = false;
+  String name = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseDatabase.instance.ref().onValue.listen((event) {
+      var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
+      init_display(data);
+      location_distance(data);
+    });
+  }
+
+  init_display(data) async {
+    final pref = await SharedPreferences.getInstance();
+    name = data['users'][pref.getString('username')]['name'].split(' ')[0];
+  }
+
+  location_distance(data) async {
+    var loc = await Location().getLocation();
+    final pref = await SharedPreferences.getInstance();
+    print(loc);
+    await data['book_database'].forEach((k, v) async {
+      if (data['book_database'][k]['genre'] == genres[active_index] &&
+          k.split('&')[1] != pref.getString('username')) {
+        print(k);
+        List latlong = data['book_database'][k]['loc'].split(',');
+
+        String lat = latlong[0];
+        String long = latlong[1];
+        print(latlong);
+        var distance = await CalcDistance.distance(double.parse(lat),
+            loc.latitude!, double.parse(long), loc.longitude!, UnitLength.km);
+        print(distance);
+        data['book_database'][k]['loc'] = distance;
+        data['book_database'][k]['isbn_username'] = k;
+        content.add(data['book_database'][k]);
+        print(data['book_database']);
+      }
+    });
+    print('search list');
+    setState(() {
+      content.sort((a, b) => a["loc"].compareTo(b["loc"]));
+      loading = true;
+    });
+    print(content);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +213,7 @@ class _HomeState extends State<Home> {
                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Nigel!',
+                            name + '!',
                             style: GoogleFonts.crimsonText(
                                 fontSize: 48.0,
                                 fontWeight: FontWeight.w600,
@@ -285,6 +339,16 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               setState(() {
                                 active_index = index;
+                                content = [];
+                                loading = false;
+                                FirebaseDatabase.instance
+                                    .ref()
+                                    .onValue
+                                    .listen((event) {
+                                  var data = Map<String, dynamic>.from(
+                                      event.snapshot.value as dynamic);
+                                  location_distance(data);
+                                });
                               });
                             },
                             style: ButtonStyle(
@@ -311,24 +375,48 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: MediaQuery.of(context).size.width - 40,
               height: MediaQuery.of(context).size.height - 415,
-              child: GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemCount: bookitem.length,
-                  //Book item list has been imported from models/bookcarddata.dart
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, int index) {
-                    return Container(
-                      child: BookCard(
-                        image: bookitem[index][0],
-                        //Book item list has been imported from models/bookcarddata.dart
-                        title: bookitem[index][1],
-                        desc: bookitem[index][2],
-                      ),
-                      margin: ma,
-                    );
-                  }),
+              child: loading == false
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : content.length == 0
+                      ? Center(
+                          child: Text(
+                            'No books were found',
+                            style: GoogleFonts.rosarivo(
+                                color: Color(0xffC19280), fontSize: 14),
+                          ),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: content.length,
+                          //Book item list has been imported from models/bookcarddata.dart
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, int index) {
+                            return Container(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => Book(
+                                                data: content[index],
+                                              )));
+                                },
+                                child: BookCard(
+                                  image: content[index][
+                                      'url_image'], //Book item list has been imported from models/bookcarddata.dart
+                                  title: content[index]['name'],
+                                  desc: content[index]['isbn_username']
+                                      .split('&')[1],
+                                ),
+                              ),
+                              margin: ma,
+                            );
+                          }),
             ),
           ],
         ),

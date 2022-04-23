@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/book_item_card.dart';
 
 class Search extends StatefulWidget {
@@ -34,11 +35,13 @@ class _SearchState extends State<Search> {
 
   location_distance(data) async {
     var loc = await Location().getLocation();
+    final pref = await SharedPreferences.getInstance();
     print(loc);
     await data['book_database'].forEach((k, v) async {
       if (data['book_database'][k]['name']
-          .toLowerCase()
-          .contains(search_controller.text.toLowerCase())) {
+              .toLowerCase()
+              .contains(search_controller.text.toLowerCase()) &&
+          k.split('&')[1] != pref.getString('username')) {
         print(k);
         List latlong = data['book_database'][k]['loc'].split(',');
 
@@ -123,6 +126,8 @@ class _SearchState extends State<Search> {
                     flex: 1,
                     child: TextButton(
                       onPressed: () {
+                        search = [];
+                        loading = false;
                         FirebaseDatabase.instance.ref().onValue.listen((event) {
                           var data = Map<String, dynamic>.from(
                               event.snapshot.value as dynamic);
@@ -175,12 +180,14 @@ class _SearchState extends State<Search> {
                             physics: BouncingScrollPhysics(),
                             itemBuilder: (context, int index) {
                               return Container(
-                                child: BookCard(
-                                  image: search[index][
-                                      'url_image'], //Book item list has been imported from models/bookcarddata.dart
-                                  title: search[index]['name'],
-                                  desc: search[index]['isbn_username']
-                                      .split('&')[1],
+                                child: InkWell(
+                                  child: BookCard(
+                                    image: search[index][
+                                        'url_image'], //Book item list has been imported from models/bookcarddata.dart
+                                    title: search[index]['name'],
+                                    desc: search[index]['isbn_username']
+                                        .split('&')[1],
+                                  ),
                                 ),
                                 margin: ma,
                               );

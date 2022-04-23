@@ -10,7 +10,7 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
+      child: Ink(
         decoration: BoxDecoration(
             color: Color(0xffFFFDF8),
             borderRadius: BorderRadius.circular(20),
