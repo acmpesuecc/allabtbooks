@@ -1,3 +1,4 @@
+import 'package:allabtbooks/screens/search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widget/book_item_card.dart';
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
   //var box = BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xffFFFDF8));
   int active_index = 0;
   int bottom_nav_index = 0;
+  TextEditingController search_controller = TextEditingController();
   var ma = const EdgeInsets.fromLTRB(15, 3, 19, 9);
   var sty = GoogleFonts.waitingForTheSunrise(
       fontSize: 20, color: const Color(0xff000000));
@@ -183,6 +185,7 @@ class _HomeState extends State<Home> {
                                 padding:
                                     const EdgeInsets.fromLTRB(24, 0, 24, 8),
                                 child: TextField(
+                                  controller: search_controller,
                                   decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.all(8),
                                       isDense: true,
@@ -201,7 +204,14 @@ class _HomeState extends State<Home> {
                           ),
                           Expanded(
                               child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => Search(
+                                            input_text: search_controller.text,
+                                          )));
+                            },
                             style: ButtonStyle(
                               overlayColor: MaterialStateColor.resolveWith(
                                   (states) => Colors.transparent),

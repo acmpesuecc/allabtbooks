@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:location/location.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'collection.dart';
+import 'package:allabtbooks/models/bookcarddata.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   final username = TextEditingController();
   final name = TextEditingController();
   final email = TextEditingController();
-  final fav_genre = TextEditingController();
+  String dropdownValue = 'Thriller';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -201,22 +202,38 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextField(
-                                      controller: fav_genre,
-                                      style:
-                                          TextStyle(color: Color(0xffFFEDD1)),
-                                      decoration: InputDecoration(
-                                          focusedBorder:
-                                              const UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color(0xffFFEDD1))),
-                                          labelText: "Favourite Genre",
-                                          labelStyle: GoogleFonts.rosarivo(
-                                              fontSize: 16,
-                                              color: Color(0xffFFEDD1))),
+                                      child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    dropdownColor:
+                                        Colors.black.withOpacity(0.75),
+                                    value: dropdownValue,
+                                    icon: const Icon(Icons.arrow_downward,
+                                        color: Color(0xffFFEDD1)),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 1,
+                                      color: Colors.black.withOpacity(0.25),
                                     ),
-                                  ),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: genres
+                                        .map<DropdownMenuItem<String>>((value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: GoogleFonts.rosarivo(
+                                              fontSize: 16,
+                                              color: Color(0xffFFEDD1)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ))
                                 ],
                               ),
                             ),
@@ -277,7 +294,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
         if (username.text != '' &&
             name.text != '' &&
             email.text != '' &&
-            fav_genre.text != '' &&
             files != null) {
           DatabaseReference ref =
               FirebaseDatabase.instance.ref('users/' + username.text);
@@ -286,7 +302,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ref.set({
             'email': email.text,
             'name': name.text,
-            'fav_genre': fav_genre.text,
+            'fav_genre': dropdownValue,
             'location': latlong
           });
           FirebaseStorage.instance

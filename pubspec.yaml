@@ -46,6 +46,7 @@ dependencies:
   otp_text_field: ^1.1.2
   http: ^0.13.4
   shared_preferences: ^2.0.13
+  calc_lat_long: ^1.0.7
 
 dev_dependencies:
   flutter_test:

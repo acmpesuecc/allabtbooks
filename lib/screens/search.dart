@@ -4,7 +4,8 @@ import '../widget/book_item_card.dart';
 import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+  final input_text;
+  const Search({Key? key, this.input_text}) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
@@ -15,6 +16,14 @@ class _SearchState extends State<Search> {
       borderRadius: BorderRadius.circular(20), color: Color(0xffFFFDF8));
   var clr = Color(0xffFFFDF8);
   var ma = EdgeInsets.fromLTRB(10, 9, 14, 3);
+  TextEditingController search_controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    search_controller.text = widget.input_text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,6 +62,7 @@ class _SearchState extends State<Search> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                         child: TextField(
+                          controller: search_controller,
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(8),
                               isDense: true,
