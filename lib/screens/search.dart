@@ -67,6 +67,7 @@ class _SearchState extends State<Search> {
       loading = true;
     });
     print(search);
+
   }
 
   @override
