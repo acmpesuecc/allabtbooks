@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1
   firebase_database: ^9.0.8
+  url_launcher: ^6.1.0
   file_picker: ^4.5.0
   firebase_storage: ^10.2.9
   location: ^4.2.0

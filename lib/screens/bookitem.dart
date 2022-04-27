@@ -1,5 +1,8 @@
+import 'package:allabtbooks/screens/chat/chat.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Book extends StatefulWidget {
   final data;
@@ -405,7 +408,7 @@ class _BookState extends State<Book> {
                 ]),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: exchange,
                 style: ButtonStyle(
                   overlayColor: MaterialStateColor.resolveWith(
                       (states) => Colors.transparent),
@@ -441,5 +444,24 @@ class _BookState extends State<Book> {
         ),
       ),
     );
+  }
+
+  exchange() async {
+    final pref = await SharedPreferences.getInstance();
+    FirebaseDatabase.instance
+        .ref('users/' +
+            pref.getString('username')! +
+            '/chat/' +
+            widget.data['isbn_username'].split('&')[1] +
+            '/case2/')
+        .set({'empty': true});
+    await FirebaseDatabase.instance
+        .ref('users/' +
+            widget.data['isbn_username'].split('&')[1] +
+            '/chat/' +
+            pref.getString('username')! +
+            '/case2/')
+        .set({'empty': true});
+    Navigator.push(context, MaterialPageRoute(builder: (builder) => Chat()));
   }
 }

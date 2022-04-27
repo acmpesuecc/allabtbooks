@@ -1,10 +1,15 @@
+import 'package:allabtbooks/screens/chat/dialogue.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Meet_Details extends StatefulWidget {
-  const Meet_Details({Key? key}) : super(key: key);
+  final selected_books, second_user;
+  const Meet_Details({Key? key, this.selected_books, this.second_user})
+      : super(key: key);
 
   @override
   _Meet_DetailsState createState() => _Meet_DetailsState();
@@ -30,7 +35,9 @@ class _Meet_DetailsState extends State<Meet_Details> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         style: ButtonStyle(
                           overlayColor: MaterialStateColor.resolveWith(
                               (states) => Colors.transparent),
@@ -140,7 +147,52 @@ class _Meet_DetailsState extends State<Meet_Details> {
                 ],
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final pref = await SharedPreferences.getInstance();
+                  var push = FirebaseDatabase.instance
+                      .ref('users/' +
+                          pref.getString('username')! +
+                          '/chat/' +
+                          widget.second_user +
+                          '/')
+                      .push();
+
+                  await push.set({
+                    'timestamp': DateTime.now().toString(),
+                    'issue': pref.getString('username'),
+                    'loc': loc.position.latitude.toString() +
+                        ',' +
+                        loc.position.longitude.toString(),
+                    'datetime': date_time,
+                    'books': widget.selected_books[0][0] +
+                        '|' +
+                        widget.selected_books[1][0]
+                  });
+                  await FirebaseDatabase.instance
+                      .ref('users/' +
+                          widget.second_user +
+                          '/chat/' +
+                          pref.getString('username')! +
+                          '/' +
+                          push.key!)
+                      .set({
+                    'timestamp': DateTime.now().toString(),
+                    'issue': pref.getString('username'),
+                    'loc': loc.position.latitude.toString() +
+                        ',' +
+                        loc.position.longitude.toString(),
+                    'datetime': date_time,
+                    'books': widget.selected_books[0][0] +
+                        '|' +
+                        widget.selected_books[1][0]
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => Dialogue(
+                                second_user: widget.second_user,
+                              )));
+                },
                 style: ButtonStyle(
                   overlayColor: MaterialStateColor.resolveWith(
                       (states) => Colors.transparent),

@@ -284,8 +284,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   personal_added() async {
     var loc = await Location().getLocation();
     DatabaseReference ref1 = FirebaseDatabase.instance.ref();
-    ref1.child('users/').onValue.listen((event) async {
-      final data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
+    ref1.child('users/').get().then((event) async {
+      final data = Map<String, dynamic>.from(event.value as dynamic);
       print(data.keys);
       if (data.keys.contains(username.text)) {
         ScaffoldMessenger.of(context)

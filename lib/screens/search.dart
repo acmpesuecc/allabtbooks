@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:calc_lat_long/calc_lat_long.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/book_item_card.dart';
+import 'bookitem.dart';
 
 class Search extends StatefulWidget {
   final input_text;
@@ -21,13 +24,14 @@ class _SearchState extends State<Search> {
   var ma = EdgeInsets.fromLTRB(10, 9, 14, 3);
   TextEditingController search_controller = TextEditingController();
   bool loading = false;
+  late StreamSubscription stream;
   List search = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     search_controller.text = widget.input_text;
-    FirebaseDatabase.instance.ref().onValue.listen((event) {
+    stream = FirebaseDatabase.instance.ref().onValue.listen((event) {
       var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
       location_distance(data);
     });
@@ -182,6 +186,14 @@ class _SearchState extends State<Search> {
                             itemBuilder: (context, int index) {
                               return Container(
                                 child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (builder) => Book(
+                                                  data: search[index],
+                                                )));
+                                  },
                                   child: BookCard(
                                     image: search[index][
                                         'url_image'], //Book item list has been imported from models/bookcarddata.dart
@@ -199,5 +211,12 @@ class _SearchState extends State<Search> {
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    stream.cancel();
+    super.deactivate();
   }
 }
