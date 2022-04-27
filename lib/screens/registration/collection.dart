@@ -320,7 +320,9 @@ class _CollectionState extends State<Collection> {
         print(mapOfArticles);
 
         DatabaseReference ref = await FirebaseDatabase.instance.ref();
-        ref.child('users/' + widget.username + '/collection').update({
+        ref
+            .child('users/' + widget.username + '/collection/' + isbn.text)
+            .update({
           'isbn': isbn.text,
           'name': mapOfArticles['ISBN:' + isbn.text]['title'],
           'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],

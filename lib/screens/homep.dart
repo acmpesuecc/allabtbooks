@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:allabtbooks/screens/search.dart';
 import 'package:calc_lat_long/calc_lat_long.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -29,13 +31,14 @@ class _HomeState extends State<Home> {
   var sty = GoogleFonts.waitingForTheSunrise(
       fontSize: 20, color: const Color(0xff000000));
   List content = [];
+  late StreamSubscription stream;
   bool loading = false;
   String name = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    FirebaseDatabase.instance.ref().onValue.listen((event) {
+    stream = FirebaseDatabase.instance.ref().onValue.listen((event) {
       var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
       init_display(data);
       location_distance(data);
@@ -341,7 +344,7 @@ class _HomeState extends State<Home> {
                                 active_index = index;
                                 content = [];
                                 loading = false;
-                                FirebaseDatabase.instance
+                                stream = FirebaseDatabase.instance
                                     .ref()
                                     .onValue
                                     .listen((event) {
@@ -422,5 +425,12 @@ class _HomeState extends State<Home> {
         ),
       );
     }
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    stream.cancel();
+    super.deactivate();
   } // Build
 } // Class

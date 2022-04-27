@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _ProfileState extends State<Profile> {
   String username = '';
   String email = '';
   String imageURL = '';
+  late StreamSubscription stream;
 
   @override
   void initState() {
@@ -29,7 +32,7 @@ class _ProfileState extends State<Profile> {
 
   initial_info() async {
     final pref = await SharedPreferences.getInstance();
-    FirebaseDatabase.instance
+    stream = FirebaseDatabase.instance
         .ref()
         .child('users/' + pref.getString('username')! + '/')
         .onValue
@@ -297,5 +300,12 @@ class _ProfileState extends State<Profile> {
               ]),
             ]),
     );
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    stream.cancel();
+    super.deactivate();
   }
 }
