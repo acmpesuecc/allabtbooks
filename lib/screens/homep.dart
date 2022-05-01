@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/book_item_card.dart';
 import 'package:allabtbooks/models/bookcarddata.dart';
@@ -380,7 +381,8 @@ class _HomeState extends State<Home> {
               height: MediaQuery.of(context).size.height - 415,
               child: loading == false
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: Lottie.asset("assets/load.json",
+                          width: 200, height: 200),
                     )
                   : content.length == 0
                       ? Center(

@@ -1,4 +1,5 @@
 import 'package:allabtbooks/screens/chat/chat.dart';
+import 'package:allabtbooks/screens/profile/profile.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,12 +110,29 @@ class _BookState extends State<Book> {
                             fontWeight: FontWeight.normal,
                             color: Colors.black54),
                       ),
-                      Text(
-                        widget.data['isbn_username'].split('&')[1],
-                        style: GoogleFonts.rosarivo(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black38),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => Profile(
+                                        username: widget.data['isbn_username']
+                                            .split('&')[1],
+                                      )));
+                        },
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.resolveWith(
+                              (states) => EdgeInsets.zero),
+                          overlayColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.transparent),
+                        ),
+                        child: Text(
+                          widget.data['isbn_username'].split('&')[1],
+                          style: GoogleFonts.rosarivo(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black38),
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
