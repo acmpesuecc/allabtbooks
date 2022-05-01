@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/book_item_card.dart';
 import 'bookitem.dart';
@@ -67,7 +68,6 @@ class _SearchState extends State<Search> {
       loading = true;
     });
     print(search);
-
   }
 
   @override
@@ -165,7 +165,8 @@ class _SearchState extends State<Search> {
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                 child: loading == false
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: Lottie.asset("assets/load.json",
+                            width: 200, height: 200),
                       )
                     : search.length == 0
                         ? Center(

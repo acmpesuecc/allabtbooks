@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:allabtbooks/utils/bottom_app_bar_navigation.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Chat extends StatefulWidget {
@@ -40,7 +41,6 @@ class _ChatState extends State<Chat> {
             .ref()
             .child('users/' + key + '/profile')
             .getDownloadURL();
-        print(img);
         var arr = '';
         try {
           data[pref.getString('username')!]['chat'][key]['case2']['arrived'] ==
@@ -51,7 +51,6 @@ class _ChatState extends State<Chat> {
               ['arrived'];
         } catch (e) {
           arr = '';
-          print(e);
           print(data[pref.getString('username')!]['chat'][key]['case2']
               ['arrived']);
         }
@@ -110,7 +109,7 @@ class _ChatState extends State<Chat> {
       backgroundColor: const Color(0xfff7efe5),
       body: loading == true
           ? Center(
-              child: CircularProgressIndicator(),
+              child: Lottie.asset("assets/load.json", width: 200, height: 200),
             )
           : content.length == 0
               ? Center(

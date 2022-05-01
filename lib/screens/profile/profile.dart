@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:allabtbooks/screens/profile/profile_books.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:allabtbooks/screens/registration/init.dart';
 import 'package:allabtbooks/utils/bottom_app_bar_navigation.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
+  final username;
+  const Profile({Key? key, this.username}) : super(key: key);
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -34,13 +39,16 @@ class _ProfileState extends State<Profile> {
     final pref = await SharedPreferences.getInstance();
     stream = FirebaseDatabase.instance
         .ref()
-        .child('users/' + pref.getString('username')! + '/')
+        .child(
+            'users/' + (widget.username ?? pref.getString('username')!) + '/')
         .onValue
         .listen((event) async {
       final data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
       final img = await FirebaseStorage.instance
           .ref()
-          .child('users/' + pref.getString('username')! + '/profile')
+          .child('users/' +
+              (widget.username ?? pref.getString('username')!) +
+              '/profile')
           .getDownloadURL();
       print(img);
       print(data);
@@ -95,7 +103,7 @@ class _ProfileState extends State<Profile> {
       ),
       body: username == ''
           ? Center(
-              child: CircularProgressIndicator(),
+              child: Lottie.asset("assets/load.json", width: 200, height: 200),
             )
           : Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Column(children: [
@@ -124,7 +132,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Text(
-                        username,
+                        widget.username ?? username,
                         style: GoogleFonts.mali(
                           color: Color(0xfffCACACA),
                           fontSize: 18,
@@ -134,38 +142,51 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 0.0, bottom: 8.0),
-                  child: Center(
-                    child: Text(
-                      email,
-                      style: GoogleFonts.mali(
-                        color: Color(0xfff838383),
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
+                widget.username != null
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                            left: 0.0, right: 0.0, top: 0.0, bottom: 8.0),
+                        child: Center(
+                          child: Text(
+                            email,
+                            style: GoogleFonts.mali(
+                              color: Color(0xfff838383),
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 0.0, bottom: 0),
-                  child: Center(
-                    child: Text(
-                      "Edit",
-                      style: GoogleFonts.rosarivo(
-                        color: Color(0xfffC19280),
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
+                widget.username != null
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                            left: 0.0, right: 0.0, top: 0.0, bottom: 0),
+                        child: Center(
+                          child: Text(
+                            "Edit",
+                            style: GoogleFonts.rosarivo(
+                              color: Color(0xfffC19280),
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ]),
               Column(children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final pref = await SharedPreferences.getInstance();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ProfileBooks(
+                                page: 'collection',
+                                username: widget.username ??
+                                    pref.getString('username'))));
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 32.0),
                     child: Row(
@@ -194,7 +215,16 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final pref = await SharedPreferences.getInstance();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ProfileBooks(
+                                page: 'recommended',
+                                username: widget.username ??
+                                    pref.getString('username'))));
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 32.0),
                     child: Row(
@@ -226,7 +256,16 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final pref = await SharedPreferences.getInstance();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ProfileBooks(
+                                page: 'interested',
+                                username: widget.username ??
+                                    pref.getString('username'))));
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 32.0),
                     child: Row(
@@ -257,46 +296,49 @@ class _ProfileState extends State<Profile> {
                         ]),
                   ),
                 ),
-                InkWell(
-                  onTap: () async {
-                    await _auth.signOut();
-                    final prefs = await SharedPreferences.getInstance();
-                    prefs.remove('username');
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const InitializerWidget()));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            child: Icon(
-                              Icons.logout,
-                              color: Color(0xfff545454),
-                              size: 25,
-                            ),
-                          ),
-                          Text(
-                            "Sign out",
-                            style: GoogleFonts.rosarivo(
-                              color: Color(0xfff545454),
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Container(
-                            child: Icon(
-                              Icons.chevron_right,
-                              color: Color(0xfff545454),
-                              size: 25,
-                            ),
-                          ),
-                        ]),
-                  ),
-                )
+                widget.username == null
+                    ? InkWell(
+                        onTap: () async {
+                          await _auth.signOut();
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.remove('username');
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const InitializerWidget()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.logout,
+                                    color: Color(0xfff545454),
+                                    size: 25,
+                                  ),
+                                ),
+                                Text(
+                                  "Sign out",
+                                  style: GoogleFonts.rosarivo(
+                                    color: Color(0xfff545454),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                Container(
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    color: Color(0xfff545454),
+                                    size: 25,
+                                  ),
+                                ),
+                              ]),
+                        ),
+                      )
+                    : Container()
               ]),
             ]),
     );
@@ -304,7 +346,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void deactivate() {
-    // TODO: implement deactivate
     stream.cancel();
     super.deactivate();
   }

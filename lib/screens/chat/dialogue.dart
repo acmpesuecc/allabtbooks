@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:allabtbooks/screens/chat/books_involved.dart';
+import 'package:allabtbooks/screens/chat/chat.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -278,7 +279,7 @@ class _DialogueState extends State<Dialogue> {
                                                               final pref =
                                                                   await SharedPreferences
                                                                       .getInstance();
-                                                              FirebaseDatabase
+                                                              await FirebaseDatabase
                                                                   .instance
                                                                   .ref('users/' +
                                                                       pref.getString(
@@ -310,7 +311,7 @@ class _DialogueState extends State<Dialogue> {
                                                                       'false'
                                                                 }
                                                               });
-                                                              FirebaseDatabase
+                                                              await FirebaseDatabase
                                                                   .instance
                                                                   .ref('users/' +
                                                                       widget
@@ -342,6 +343,12 @@ class _DialogueState extends State<Dialogue> {
                                                                       'false'
                                                                 }
                                                               });
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (builder) =>
+                                                                              Chat()));
                                                             },
                                                             style: ButtonStyle(
                                                               overlayColor: MaterialStateColor
