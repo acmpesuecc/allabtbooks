@@ -24,7 +24,6 @@ class _ChatState extends State<Chat> {
   var loading = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initial_process();
   }
@@ -35,35 +34,45 @@ class _ChatState extends State<Chat> {
         FirebaseDatabase.instance.ref('users').onValue.listen((event) async {
       var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
       content = [];
-      await data[pref.getString('username')!]['chat']
-          .forEach((key, value) async {
-        var img = await FirebaseStorage.instance
-            .ref()
-            .child('users/' + key + '/profile')
-            .getDownloadURL();
-        var arr = '';
-        try {
-          data[pref.getString('username')!]['chat'][key]['case2']['arrived'] ==
-                  null
-              ? false
-              : true;
-          arr = data[pref.getString('username')!]['chat'][key]['case2']
-              ['arrived'];
-        } catch (e) {
-          arr = '';
-          print(data[pref.getString('username')!]['chat'][key]['case2']
-              ['arrived']);
-        }
-        content.add([
-          key, img,
-          arr //,data[key]['case2']['arrived'] == null ? false : true
-        ]);
-        setState(() {
-          loading = false;
-          content = content;
+      if(data[pref.getString('username')!]['chat']!=null){
+        await data[pref.getString('username')!]['chat']
+            .forEach((key, value) async {
+          var img = await FirebaseStorage.instance
+              .ref()
+              .child('users/' + key + '/profile')
+              .getDownloadURL();
+          var arr = '';
+          try {
+            data[pref.getString('username')!]['chat'][key]['case2']['arrived'] ==
+                null
+                ? false
+                : true;
+            arr = data[pref.getString('username')!]['chat'][key]['case2']
+            ['arrived'];
+          } catch (e) {
+            arr = '';
+            print(data[pref.getString('username')!]['chat'][key]['case2']
+            ['arrived']);
+          }
+          content.add([
+            key, img,
+            arr //,data[key]['case2']['arrived'] == null ? false : true
+          ]);
+          setState(() {
+            loading = false;
+            content = content;
+          });
+          print(content);
         });
-        print(content);
-      });
+      }
+      //TODO: Make sure this works when a chat user is created
+      else{
+        setState((){
+          loading=false;
+          content=content;
+        });
+      }
+
     });
   }
 

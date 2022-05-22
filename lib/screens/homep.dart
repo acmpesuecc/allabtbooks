@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
   int active_index = 0;
   int bottom_nav_index = 0;
   TextEditingController search_controller = TextEditingController();
+  TextEditingController friend_username = TextEditingController();
   var ma = const EdgeInsets.fromLTRB(15, 3, 19, 9);
   var sty = GoogleFonts.waitingForTheSunrise(
       fontSize: 20, color: const Color(0xff000000));
@@ -52,6 +53,7 @@ class _HomeState extends State<Home> {
   }
 
   location_distance(data) async {
+    content=[];
     var loc = await Location().getLocation();
     final pref = await SharedPreferences.getInstance();
     print(loc);
@@ -169,7 +171,38 @@ class _HomeState extends State<Home> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  print('add friend');
+                                  showDialog(context: context, builder: (builder)=>AlertDialog(title:
+                                    Text('Add Friend'),content:
+                                    TextField(controller: friend_username,
+                                      decoration: InputDecoration(
+                                          labelText: "Username",),
+                                    ),actions:[
+                                    TextButton(onPressed: (){
+                                      DatabaseReference ref = FirebaseDatabase.instance.ref();
+                                      ref.child('users/').onValue.listen((event) async {
+                                        final data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
+                                        print(data.keys);
+                                        if (friend_username.text != '') {
+                                          if (data.keys.contains(friend_username.text)) {
+                                            await ref
+                                                .child('users/' + widget.username + '/' + 'friend_req')
+                                                .update({friend_username.text: 0});
+                                            await ref
+                                                .child('users/' + friend_username.text + '/' + 'friend_req')
+                                                .update({widget.username: 0});
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(content: Text('Friend request sent')));
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(content: Text('Username does not exist')));
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('Please enter the username to add')));
+                                        }
+                                      });
+                                    }, child: Text("Add"))]
+                                  ,));
                                 },
                                 icon: const Icon(
                                   Icons.add_outlined,
