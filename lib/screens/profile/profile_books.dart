@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:allabtbooks/screens/registration/collection.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:allabtbooks/widget/book_item_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileBooks extends StatefulWidget {
@@ -87,8 +89,11 @@ class _ProfileBooksState extends State<ProfileBooks> {
                               padding:
                                   const EdgeInsets.fromLTRB(13, 17, 17, 11),
                               child: InkWell(
-                                onTap: () {
-                                  //TODO: Bottom sheet for addition of books
+                                onTap: () async {
+                                  var loc = await Location().getLocation();
+                                  String latlong =
+                                      loc.latitude.toString() + ',' + loc.longitude.toString();
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Collection(username: widget.username,loc: latlong,next: 'collection',)));
                                 },
                                 child: Ink(
                                   decoration: BoxDecoration(

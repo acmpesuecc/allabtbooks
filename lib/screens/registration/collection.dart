@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:allabtbooks/models/bookcarddata.dart';
 
 class Collection extends StatefulWidget {
-  final username, loc;
-  const Collection({Key? key, this.username, this.loc}) : super(key: key);
+  final username, loc,next;
+  const Collection({Key? key, this.username, this.loc,this.next}) : super(key: key);
 
   @override
   State<Collection> createState() => _CollectionState();
@@ -354,12 +354,17 @@ class _CollectionState extends State<Collection> {
             SnackBar(content: Text('Please enter all the fields')));
       }
     } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FriendRequest(
-                    username: widget.username,
-                  )));
+      if(widget.next=='collection'){
+        Navigator.pop(context);
+      }
+      else{
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FriendRequest(
+                  username: widget.username,
+                )));
+      }
     }
   }
 }
