@@ -184,9 +184,9 @@ class _HomeState extends State<Home> {
                                         print(data.keys);
                                         if (friend_username.text != '') {
                                           if (data.keys.contains(friend_username.text)) {
-                                            await ref
-                                                .child('users/' + widget.username + '/' + 'friend_req')
-                                                .update({friend_username.text: 0});
+                                           // await ref
+                                            //    .child('users/' + widget.username + '/' + 'friend_req')
+                                            //    .update({friend_username.text: 0});
                                             await ref
                                                 .child('users/' + friend_username.text + '/' + 'friend_req')
                                                 .update({widget.username: 0});
