@@ -210,16 +210,6 @@ class _HomeState extends State<Home> {
                                   size: 30,
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  print('notifications');
-                                },
-                                icon: const Icon(
-                                  Icons.add_alert_rounded,
-                                  color: Color(0xff30011E),
-                                  size: 28,
-                                ),
-                              ),
                             ],
                           )
                         ],
