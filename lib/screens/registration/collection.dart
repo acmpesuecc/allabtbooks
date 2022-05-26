@@ -327,7 +327,8 @@ class _CollectionState extends State<Collection> {
           'name': mapOfArticles['ISBN:' + isbn.text]['title'],
           'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],
           'genre': dropdownValue,
-          'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large']
+          'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large'],
+          'timedate':DateTime.now().toString()
         });
         ref
             .child('book_database/' + isbn.text + '&' + widget.username + '/')

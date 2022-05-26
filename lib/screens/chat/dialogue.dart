@@ -22,7 +22,6 @@ class _DialogueState extends State<Dialogue> {
   late StreamSubscription stream;
   @override
   void initState() {
-    // TODO: Check if when clicking on google maps button it opens google maps and when clicking on remove and add button it does the same functionality
     super.initState();
     initialdisplay();
   }
@@ -46,7 +45,6 @@ class _DialogueState extends State<Dialogue> {
             content.add([key, data[key]]);
           }
         });
-        print(content);
       });
     });
   }
@@ -61,7 +59,7 @@ class _DialogueState extends State<Dialogue> {
                   image: AssetImage("assets/images/Rectangle 37.png"),
                   fit: BoxFit.cover)),
           child: loading == true
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : Padding(
@@ -77,7 +75,7 @@ class _DialogueState extends State<Dialogue> {
                             },
                             style: ButtonStyle(
                               overlayColor: MaterialStateColor.resolveWith(
-                                  (states) => Color(0xffA2A2A2)),
+                                  (states) => const Color(0xffA2A2A2)),
                             ),
                             child: const Icon(
                               Icons.arrow_back,
@@ -103,7 +101,7 @@ class _DialogueState extends State<Dialogue> {
                                   style: ButtonStyle(
                                     overlayColor:
                                         MaterialStateColor.resolveWith(
-                                            (states) => Color(0xffA2A2A2)),
+                                            (states) => const Color(0xffA2A2A2)),
                                   ),
                                   child: const Icon(
                                     Icons.add,
@@ -113,12 +111,18 @@ class _DialogueState extends State<Dialogue> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () async{
+                                  final pref = await SharedPreferences.getInstance();
+                                  FirebaseDatabase.instance.ref('users/'+pref.getString('username')!+'/chat/'+widget.second_user).remove();
+                                  FirebaseDatabase.instance.ref('users/'+widget.second_user+'/chat/'+pref.getString('username')!).remove();
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Chat()));
+
+                                },
                                 style: ButtonStyle(
                                     overlayColor:
                                         MaterialStateColor.resolveWith(
-                                            (states) => Color(0xffA2A2A2))),
-                                child: Icon(
+                                            (states) => const Color(0xffA2A2A2))),
+                                child: const Icon(
                                   Icons.delete,
                                   color: Color(0xff565656),
                                   size: 31,
@@ -397,7 +401,7 @@ class _DialogueState extends State<Dialogue> {
                                                               overlayColor: MaterialStateColor
                                                                   .resolveWith(
                                                                       (states) =>
-                                                                          Color(
+                                                                          const Color(
                                                                               0xffE36874)),
                                                             ),
                                                             child: const Icon(

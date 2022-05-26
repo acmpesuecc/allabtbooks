@@ -23,9 +23,9 @@ class _ActivityState extends State<Activity> {
   @override
   void initState() {
     super.initState();
-    _info();
+    _friend_req_info();
   }
-  _info() async {
+  _friend_req_info() async {
     final pref  = await SharedPreferences.getInstance();
     stream=FirebaseDatabase.instance.ref('users/'+pref.getString('username')!+'/friend_req').onValue.listen((event) {
       var data = Map.from(event.snapshot.value as Map);
@@ -98,7 +98,8 @@ class _ActivityState extends State<Activity> {
             ),
             Container(height: MediaQuery.of(context).size.height-130,
               child: ListView.builder(shrinkWrap: true,itemCount: section_activity?activity.length:friend_req.length,itemBuilder: (context,int i){
-               if(section_activity){return Padding(
+               if(section_activity){
+                 return Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: Container(
                    width: MediaQuery.of(context).size.width - 60,
