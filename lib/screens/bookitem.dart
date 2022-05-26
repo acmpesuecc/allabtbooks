@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:allabtbooks/screens/chat/chat.dart';
 import 'package:allabtbooks/screens/profile/profile.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,7 +19,7 @@ class _BookState extends State<Book> {
   List review_list=[];
   int star_index = 0;
   bool contains=false;
-
+  late StreamSubscription stream;
   TextEditingController description = TextEditingController();
   @override
   void initState() {
@@ -26,8 +28,9 @@ class _BookState extends State<Book> {
     _contains();
   }
   _init_review() async {
-    await FirebaseDatabase.instance.ref('bookreviews/'+widget.data['name']).get().then((event) {
-      var review_data = Map<String, dynamic>.from(event.value as dynamic);
+    stream = await FirebaseDatabase.instance.ref('bookreviews/'+widget.data['name']).onValue.listen((event) {
+      review_list=[];
+      var review_data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
       review_data.forEach((key, value) {
         review_list.add([key,value]);
       });
@@ -268,6 +271,21 @@ class _BookState extends State<Book> {
         ),
       ));
     });
+    if(review_list.length==0){
+      setState((){
+        review_list_render.add(Padding(
+          padding: const EdgeInsets.fromLTRB(0,16.0,0,0),
+          child: Text(
+            "No reviews added to this book",
+            style: GoogleFonts.rosarivo(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Colors.black26),
+          ),
+        ));
+      });
+
+    }
 
     return Scaffold(resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -317,6 +335,7 @@ class _BookState extends State<Book> {
                                       "isbn":widget.data['isbn_username'].split('&')[0],
                                       "name":widget.data['name'],
                                       "url_image":widget.data['url_image'],
+                                      'timedate':DateTime.now().toString()
                                     });
                               },
                               icon: const Icon(
@@ -359,6 +378,7 @@ class _BookState extends State<Book> {
                                                           "name":widget.data['name'],
                                                           "url_image":widget.data['url_image'],
                                                           "recommendation":pref.getString('username'),
+                                                          'timedate':DateTime.now().toString()
                                                         });
                                                   }, child: Text("SEND"))
                                                 ],
@@ -520,12 +540,20 @@ class _BookState extends State<Book> {
     ),title: Text("Add a Review"),actions: [
       TextButton(onPressed: () async{
         final pref = await SharedPreferences.getInstance();
-        FirebaseDatabase.instance.ref('bookreviews/'+widget.data['name']+'/'+pref.getString('username')!).set(
+        Navigator.pop(context);
+        await FirebaseDatabase.instance.ref('bookreviews/'+widget.data['name']+'/'+pref.getString('username')!).set(
             {
               'desc':description.text,
               'stars':star_index,
             });
+        await _init_review();
       }, child: const Text('Add'))
     ],));
+  }
+
+  @override
+  void deactivate() {
+    stream.cancel();
+    super.deactivate();
   }
 }

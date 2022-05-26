@@ -36,7 +36,7 @@ class _InitializerWidgetState extends State<InitializerWidget> {
     }
 
     if (_user == null) {
-      SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         print("This is running");
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Authenticate()));

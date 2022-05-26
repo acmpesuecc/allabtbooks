@@ -16,7 +16,6 @@ class _Final_DetailsState extends State<Final_Details> {
   List content = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initial_display();
   }
@@ -58,12 +57,11 @@ class _Final_DetailsState extends State<Final_Details> {
 
   @override
   Widget build(BuildContext context) {
-    print(content);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffF7EFE5),
         body: content == []
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Padding(
@@ -84,7 +82,7 @@ class _Final_DetailsState extends State<Final_Details> {
                                 overlayColor: MaterialStateColor.resolveWith(
                                     (states) => Colors.transparent),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_back,
                                 size: 31,
                                 color: Color(0xff545454),
