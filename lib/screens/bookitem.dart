@@ -334,9 +334,25 @@ class _BookState extends State<Book> {
                                       "genre":widget.data['genre'],
                                       "isbn":widget.data['isbn_username'].split('&')[0],
                                       "name":widget.data['name'],
-                                      "url_image":widget.data['url_image'],
-                                      'timedate':DateTime.now().toString()
+                                      "url_image":widget.data['url_image']
                                     });
+                                List fri_list=[];
+                                await FirebaseDatabase.instance.ref('users/'+pref.getString('username')!+'/friend').get().then((value){
+                                  fri_list=Map.from(value.value as Map).keys.toList();
+                                });
+                                fri_list.forEach((element) {
+                                  FirebaseDatabase.instance.ref('users/'+element+'/activity/').push().set(
+                                      {
+                                        "author":widget.data['author'],
+                                        "genre":widget.data['genre'],
+                                        "isbn":widget.data['isbn_username'].split('&')[0],
+                                        "name":widget.data['name'],
+                                        "url_image":widget.data['url_image'],
+                                        'timedate':DateTime.now().toString(),
+                                        'type':'interested',
+                                        'person':pref.getString('username')
+                                      });
+                                });
                               },
                               icon: const Icon(
                                 Icons.bookmark,
@@ -378,8 +394,21 @@ class _BookState extends State<Book> {
                                                           "name":widget.data['name'],
                                                           "url_image":widget.data['url_image'],
                                                           "recommendation":pref.getString('username'),
-                                                          'timedate':DateTime.now().toString()
                                                         });
+                                                    FirebaseDatabase.instance.ref('users/'+content[i]+'/activity').push().set(
+                                                        {
+                                                          "author":widget.data['author'],
+                                                          "genre":widget.data['genre'],
+                                                          "isbn":widget.data['isbn_username'].split('&')[0],
+                                                          "name":widget.data['name'],
+                                                          "url_image":widget.data['url_image'],
+                                                          "recommendation":pref.getString('username'),
+                                                          'timedate':DateTime.now().toString(),
+                                                          'type':'recommended',
+                                                          'person':pref.getString('username')
+                                                        });
+
+
                                                   }, child: Text("SEND"))
                                                 ],
                                               ),
