@@ -327,8 +327,24 @@ class _CollectionState extends State<Collection> {
           'name': mapOfArticles['ISBN:' + isbn.text]['title'],
           'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],
           'genre': dropdownValue,
-          'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large'],
-          'timedate':DateTime.now().toString()
+          'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large']
+        });
+        List fri_list=[];
+        await FirebaseDatabase.instance.ref('users/'+widget.username+'/friend').get().then((value){
+          fri_list=value.value!=null? Map.from(value.value as Map).keys.toList():[];
+        });
+        fri_list.forEach((element) {
+          FirebaseDatabase.instance.ref('users/'+element+'/activity/').push().set(
+              {
+                'isbn': isbn.text,
+                'name': mapOfArticles['ISBN:' + isbn.text]['title'],
+                'author': mapOfArticles['ISBN:' + isbn.text]['authors'][0]['name'],
+                'genre': dropdownValue,
+                'url_image': mapOfArticles['ISBN:' + isbn.text]['cover']['large'],
+                'timedate':DateTime.now().toString(),
+                'type':'collection',
+                'person':widget.username
+              });
         });
         ref
             .child('book_database/' + isbn.text + '&' + widget.username + '/')

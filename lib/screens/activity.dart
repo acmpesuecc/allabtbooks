@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../utils/bottom_app_bar_navigation.dart';
 
 class Activity extends StatefulWidget {
@@ -20,10 +20,13 @@ class _ActivityState extends State<Activity> {
   List friend_req = [];
   List activity = [];
   late StreamSubscription stream;
+  late StreamSubscription stream2;
+
   @override
   void initState() {
     super.initState();
     _friend_req_info();
+    _activity_info();
   }
   _friend_req_info() async {
     final pref  = await SharedPreferences.getInstance();
@@ -38,6 +41,21 @@ class _ActivityState extends State<Activity> {
     });
     setState((){friend_req=friend_req;});
   }
+  _activity_info() async {
+    final pref = await SharedPreferences.getInstance();
+    stream2=FirebaseDatabase.instance.ref('users/'+pref.getString('username')!+'/activity').orderByChild('timedate').onValue.listen((event) {
+      activity=[];
+      setState((){
+
+        event.snapshot.children.forEach((element) {
+          print(element.value);
+          activity.add(element.value);
+        });
+      });
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,23 +138,27 @@ class _ActivityState extends State<Activity> {
                      child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Row(
+                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                             Text(
-                               "Nigel",
-                               style: GoogleFonts.rosarivo(
-                                 fontSize: 18,
-                                 fontWeight: FontWeight.normal,
+                             Expanded(
+                               child: Text(
+                                 activity[activity.length-i-1]['type']=='collection'?activity[activity.length-i-1]['person']+' added a new book':activity[activity.length-i-1]['type']=='recommended'?activity[activity.length-i-1]['person']+' has recommended a book':activity[activity.length-i-1]['type']=='interested'?activity[activity.length-i-1]['person']+' is interested in':'',
+                                 style: GoogleFonts.rosarivo(
+                                   fontSize: 18,
+                                   fontWeight: FontWeight.normal,
+                                   color: Color(0xffC19280).withOpacity(0.7)
+                                 ),
                                ),
                              ),
+                             Text(DateFormat.d().format(DateFormat('yy-MM-dd hh:mm:ss').parse(activity[activity.length-i-1]['timedate'])).toString()+'/'+DateFormat.M().format(DateFormat('yy-MM-dd hh:mm:ss').parse(activity[activity.length-i-1]['timedate'])).toString()+'/'+DateFormat.y().format(DateFormat('yy-MM-dd hh:mm:ss').parse(activity[activity.length-i-1]['timedate'])).toString()[2]+DateFormat.y().format(DateFormat('yy-MM-dd hh:mm:ss').parse(activity[activity.length-i-1]['timedate'])).toString()[3]+' '+DateFormat.jm().format(DateFormat('yy-MM-dd hh:mm:ss').parse(activity[activity.length-i-1]['timedate'])).toString(),style: GoogleFonts.rosarivo(fontSize: 8,color: Colors.grey),)
                            ],
                          ),
                          Padding(
                            padding: const EdgeInsets.only(top: 10.0),
                            child: Text(
-                             "Its a great book",
+                             activity[activity.length-i-1]['name'].toString(),
                              style: GoogleFonts.rosarivo(
-                               fontSize: 13,
+                               fontSize: 10,
                                fontWeight: FontWeight.normal,
                              ),
                            ),
@@ -235,6 +257,7 @@ class _ActivityState extends State<Activity> {
   void deactivate() {
     // TODO: implement deactivate
     stream.cancel();
+    stream2.cancel();
     super.deactivate();
   }
 }
