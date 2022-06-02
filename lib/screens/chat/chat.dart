@@ -51,8 +51,6 @@ class _ChatState extends State<Chat> {
             ['arrived'];
           } catch (e) {
             arr = '';
-            print(data[pref.getString('username')!]['chat'][key]['case2']
-            ['arrived']);
           }
           content.add([
             key, img,
@@ -62,7 +60,6 @@ class _ChatState extends State<Chat> {
             loading = false;
             content = content;
           });
-          print(content);
         });
       }
       //TODO: Make sure this works when a chat user is created
@@ -84,7 +81,6 @@ class _ChatState extends State<Chat> {
         onTap: (int index) {
           setState(() {
             bottom_nav_index = index;
-            print(bottom_nav_index);
           });
           bottom_navigation(index, context);
         },

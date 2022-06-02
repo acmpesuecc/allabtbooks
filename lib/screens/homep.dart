@@ -56,36 +56,28 @@ class _HomeState extends State<Home> {
     content=[];
     var loc = await Location().getLocation();
     final pref = await SharedPreferences.getInstance();
-    print(loc);
     await data['book_database'].forEach((k, v) async {
       if (data['book_database'][k]['genre'] == genres[active_index] &&
           k.split('&')[1] != pref.getString('username')) {
-        print(k);
         List latlong = data['book_database'][k]['loc'].split(',');
 
         String lat = latlong[0];
         String long = latlong[1];
-        print(latlong);
         var distance = await CalcDistance.distance(double.parse(lat),
             loc.latitude!, double.parse(long), loc.longitude!, UnitLength.km);
-        print(distance);
         data['book_database'][k]['loc'] = distance;
         data['book_database'][k]['isbn_username'] = k;
         content.add(data['book_database'][k]);
-        print(data['book_database']);
       }
     });
-    print('search list');
     setState(() {
       content.sort((a, b) => a["loc"].compareTo(b["loc"]));
       loading = true;
     });
-    print(content);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.username);
     if (widget.username == null) {
       return PersonalInfo();
     } else {
@@ -97,7 +89,6 @@ class _HomeState extends State<Home> {
             onTap: (int index) {
               setState(() {
                 bottom_nav_index = index;
-                print(bottom_nav_index);
               });
               bottom_navigation(index, context);
             },
@@ -181,7 +172,6 @@ class _HomeState extends State<Home> {
                                       DatabaseReference ref = FirebaseDatabase.instance.ref();
                                       ref.child('users/').onValue.listen((event) async {
                                         final data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
-                                        print(data.keys);
                                         if (friend_username.text != '') {
                                           if (data.keys.contains(friend_username.text)) {
                                            // await ref

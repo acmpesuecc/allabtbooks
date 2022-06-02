@@ -40,7 +40,6 @@ class _ProfileBooksState extends State<ProfileBooks> {
         } else {
           content = [];
         }
-        print(content);
         var data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
         setState(() {
           username = pref.getString('username');
@@ -59,7 +58,6 @@ class _ProfileBooksState extends State<ProfileBooks> {
 
   @override
   Widget build(BuildContext context) {
-    print(content);
     return Scaffold(
       backgroundColor: const Color(0xffF7EFE5),
       body: SafeArea(
@@ -133,6 +131,9 @@ class _ProfileBooksState extends State<ProfileBooks> {
                                                 '/' +
                                                 content[index][0])
                                             .remove();
+                                        if(widget.page=='collection'){
+                                          FirebaseDatabase.instance.ref('book_database/'+content[index][0]+'&'+widget.username).remove();
+                                        }
                                       }
                                     : () {},
                                 child: BookCard(
