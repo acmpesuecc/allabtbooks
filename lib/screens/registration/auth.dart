@@ -37,13 +37,11 @@ class _AuthenticateState extends State<Authenticate> {
     });
 
     try {
-      print("Trying Signin Function");
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
       setState(() {
         showLoading = false;
       });
-      print("pushing");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => PersonalInfo()));
     } on FirebaseAuthException catch (e) {
@@ -156,7 +154,6 @@ class _AuthenticateState extends State<Authenticate> {
                       });
                     },
                     codeAutoRetrievalTimeout: (verificationId) async {
-                      print("AutoRetrievalTimeout");
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -243,13 +240,10 @@ class _AuthenticateState extends State<Authenticate> {
     final isValid = otpFormKey.currentState!.validate();
     if (isValid) {
       otpFormKey.currentState!.save();
-      print(otp);
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: _verificationId!, smsCode: otp);
 
       signInWithPhoneAuthCredential(phoneAuthCredential);
-    } else {
-      print("Code Not Valid");
     }
   }
 

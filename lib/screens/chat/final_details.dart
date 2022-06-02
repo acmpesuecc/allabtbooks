@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'chat.dart';
+
 class Final_Details extends StatefulWidget {
   final second_user;
   const Final_Details({Key? key, this.second_user}) : super(key: key);
@@ -24,34 +26,51 @@ class _Final_DetailsState extends State<Final_Details> {
     final pref = await SharedPreferences.getInstance();
     FirebaseDatabase.instance.ref('users/').get().then((value) {
       var data = Map<String, dynamic>.from(value.value as dynamic);
-      var url1 = '';
-      var url2 = '';
-      data[pref.getString('username')]['collection'].forEach((k, v) {
-        if (data[pref.getString('username')]['collection'][k]['name'] ==
-            data[pref.getString('username')]['chat'][widget.second_user]
-                    ['case2']['books']
-                .split('|')[0]) {
-          url1 = data[pref.getString('username')]['collection'][k]['url_image'];
-        }
-      });
-      data[widget.second_user]['collection'].forEach((k, v) {
-        if (data[widget.second_user]['collection'][k]['name'] ==
-            data[widget.second_user]['chat'][pref.getString('username')]
-                    ['case2']['books']
-                .split('|')[1]) {
-          url2 = data[widget.second_user]['collection'][k]['url_image'];
-        }
-      });
-      setState(() {
-        content = [
-          url1,
-          url2,
-          data[pref.getString('username')]['chat'][widget.second_user]['case2']
-              ['datetime'],
-          data[pref.getString('username')]['chat'][widget.second_user]['case2']
-              ['loc'],
-        ];
-      });
+      var manipulation = data[pref.getString('username')]['chat'][widget.second_user]['case2']
+      ['datetime'].replaceAll('/','-').split(' ')[1].split(':');
+      var dates = data[pref.getString('username')]['chat'][widget.second_user]['case2']
+      ['datetime'].replaceAll('/','-').split(' ')[0];
+       var date =dates.split('-')[0].length==1?'0'+ dates.split('-')[0]:dates.split('-')[0];
+      var month =dates.split('-')[1].length==1?'0'+ dates.split('-')[1]:dates.split('-')[1];
+      var year = dates.split('-')[2];
+      var final_manip = year+'-'+month+'-'+date+' '+(manipulation[0].length==1?'0'+manipulation[0]:manipulation[0])+':'+(manipulation[1].length==1?'0'+manipulation[1]:manipulation[1])+':00';
+
+      if(DateTime.parse(final_manip).isBefore(DateTime.now())){
+        FirebaseDatabase.instance.ref('users/'+pref.getString('username')!+'/chat/'+widget.second_user).remove();
+        FirebaseDatabase.instance.ref('users/'+widget.second_user+'/chat/'+pref.getString('username')!).remove();
+        Navigator.push(context, MaterialPageRoute(builder: (builder)=>Chat()));
+      }
+      else{
+        var url1 = '';
+        var url2 = '';
+        data[pref.getString('username')]['collection'].forEach((k, v) {
+          if (data[pref.getString('username')]['collection'][k]['name'] ==
+              data[pref.getString('username')]['chat'][widget.second_user]
+              ['case2']['books']
+                  .split('|')[0]) {
+            url1 = data[pref.getString('username')]['collection'][k]['url_image'];
+          }
+        });
+        data[widget.second_user]['collection'].forEach((k, v) {
+          if (data[widget.second_user]['collection'][k]['name'] ==
+              data[widget.second_user]['chat'][pref.getString('username')]
+              ['case2']['books']
+                  .split('|')[1]) {
+            url2 = data[widget.second_user]['collection'][k]['url_image'];
+          }
+        });
+        setState(() {
+          content = [
+            url1,
+            url2,
+            data[pref.getString('username')]['chat'][widget.second_user]['case2']
+            ['datetime'],
+            data[pref.getString('username')]['chat'][widget.second_user]['case2']
+            ['loc'],
+          ];
+        });
+      }
+
     });
   }
 

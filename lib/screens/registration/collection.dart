@@ -317,7 +317,6 @@ class _CollectionState extends State<Collection> {
                 isbn.text +
                 '&jscmd=data&format=json'));
         Map mapOfArticles = json.decode(stringOfArticles);
-        print(mapOfArticles);
 
         DatabaseReference ref = await FirebaseDatabase.instance.ref();
         ref

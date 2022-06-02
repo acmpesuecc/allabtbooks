@@ -50,8 +50,6 @@ class _ProfileState extends State<Profile> {
               (widget.username ?? pref.getString('username')!) +
               '/profile')
           .getDownloadURL();
-      print(img);
-      print(data);
       setState(() {
         name = data['name'];
         email = data['email'];
@@ -70,7 +68,6 @@ class _ProfileState extends State<Profile> {
         onTap: (int index) {
           setState(() {
             bottom_nav_index = index;
-            print(bottom_nav_index);
           });
           bottom_navigation(index, context);
         },

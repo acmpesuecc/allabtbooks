@@ -162,7 +162,6 @@ class _FriendRequestState extends State<FriendRequest> {
     DatabaseReference ref = FirebaseDatabase.instance.ref();
     ref.child('users/').onValue.listen((event) async {
       final data = Map<String, dynamic>.from(event.snapshot.value as dynamic);
-      print(data.keys);
       if (friend_username.text != '') {
         if (data.keys.contains(friend_username.text)) {
           await ref

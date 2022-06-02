@@ -286,43 +286,43 @@ class _DialogueState extends State<Dialogue> {
                                                               await FirebaseDatabase
                                                                   .instance
                                                                   .ref('users/' +
-                                                                      pref.getString(
-                                                                          'username')! +
-                                                                      '/chat/' +
-                                                                      widget
-                                                                          .second_user)
+                                                                  widget
+                                                                      .second_user +
+                                                                  '/chat/' +
+                                                                  pref.getString(
+                                                                      'username')!)
                                                                   .set({
                                                                 'case2': {
                                                                   'books': content[
-                                                                          i][1]
-                                                                      ['books'],
+                                                                  i][1]
+                                                                  ['books'],
                                                                   'datetime':
-                                                                      content[i]
-                                                                              [
-                                                                              1]
-                                                                          [
-                                                                          'datetime'],
+                                                                  content[i]
+                                                                  [
+                                                                  1]
+                                                                  [
+                                                                  'datetime'],
                                                                   'timestamp':
-                                                                      content[i]
-                                                                              [
-                                                                              1]
-                                                                          [
-                                                                          'timestamp'],
+                                                                  content[i]
+                                                                  [
+                                                                  1]
+                                                                  [
+                                                                  'timestamp'],
                                                                   'loc': content[
-                                                                          i][1]
-                                                                      ['loc'],
+                                                                  i][1]
+                                                                  ['loc'],
                                                                   'arrived':
-                                                                      'false'
+                                                                  'false'
                                                                 }
                                                               });
                                                               await FirebaseDatabase
                                                                   .instance
                                                                   .ref('users/' +
-                                                                      widget
-                                                                          .second_user +
-                                                                      '/chat/' +
                                                                       pref.getString(
-                                                                          'username')!)
+                                                                          'username')! +
+                                                                      '/chat/' +
+                                                                      widget
+                                                                          .second_user)
                                                                   .set({
                                                                 'case2': {
                                                                   'books': content[

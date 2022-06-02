@@ -286,7 +286,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
     DatabaseReference ref1 = FirebaseDatabase.instance.ref();
     ref1.child('users/').get().then((event) async {
       final data = Map<String, dynamic>.from(event.value as dynamic);
-      print(data.keys);
       if (data.keys.contains(username.text)) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Username already exists')));

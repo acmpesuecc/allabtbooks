@@ -48,7 +48,6 @@ class _ActivityState extends State<Activity> {
       setState((){
 
         event.snapshot.children.forEach((element) {
-          print(element.value);
           activity.add(element.value);
         });
       });
@@ -66,7 +65,6 @@ class _ActivityState extends State<Activity> {
           onTap: (int index) {
             setState(() {
               bottom_nav_index = index;
-              print(bottom_nav_index);
             });
             bottom_navigation(index, context);
           },
@@ -146,7 +144,7 @@ class _ActivityState extends State<Activity> {
                                  style: GoogleFonts.rosarivo(
                                    fontSize: 18,
                                    fontWeight: FontWeight.normal,
-                                   color: Color(0xffC19280).withOpacity(0.7)
+                                   color: Color(0xffac6d55)
                                  ),
                                ),
                              ),

@@ -41,33 +41,26 @@ class _SearchState extends State<Search> {
   location_distance(data) async {
     var loc = await Location().getLocation();
     final pref = await SharedPreferences.getInstance();
-    print(loc);
     await data['book_database'].forEach((k, v) async {
       if (data['book_database'][k]['name']
               .toLowerCase()
               .contains(search_controller.text.toLowerCase()) &&
           k.split('&')[1] != pref.getString('username')) {
-        print(k);
         List latlong = data['book_database'][k]['loc'].split(',');
 
         String lat = latlong[0];
         String long = latlong[1];
-        print(latlong);
         var distance = await CalcDistance.distance(double.parse(lat),
             loc.latitude!, double.parse(long), loc.longitude!, UnitLength.km);
-        print(distance);
         data['book_database'][k]['loc'] = distance;
         data['book_database'][k]['isbn_username'] = k;
         search.add(data['book_database'][k]);
-        print(data['book_database']);
       }
     });
-    print('search list');
     setState(() {
       search.sort((a, b) => a["loc"].compareTo(b["loc"]));
       loading = true;
     });
-    print(search);
   }
 
   @override
